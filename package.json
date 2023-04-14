@@ -1,7 +1,6 @@
 {
   "name": "mocking-manejoerrores",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -30,6 +29,16 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "twilio": "^4.10.0"
-  }
+    "twilio": "^4.10.0",
+    "winston": "^3.8.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MelGar35/Implementacion-Logger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MelGar35/Implementacion-Logger/issues"
+  },
+  "homepage": "https://github.com/MelGar35/Implementacion-Logger#readme",
+  "description": ""
 }

@@ -11,6 +11,8 @@ export default {
   TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER,
   NODEMAILER_ACCOUNT: process.env.NODEMAILER_ACCOUNT,
   NODEMAILER_PASS: process.env.NODEMAILER_PASS,
+  NODE_ENV: process.env.NODE_ENV,
+
 }
 
 

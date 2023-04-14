@@ -11,10 +11,14 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import config from "../src/config/config.js"
 import errorHandler from "../src/middlewares/errors/index.js"
+import { addLogger } from "../src/utils/logger.js"
 
 
 //Configuracion del servidor
 const app = express()
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.listen(config.PORT, () => console.log(`Escuchando en el puerto ${config.PORT}`))
 
@@ -23,33 +27,33 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-
-
 //Handlebars
 app.engine('hbs', handlebars.engine({
     extname: '.hbs',
     defaultLayout: 'main.hbs',
     handlebars: allowInsecurePrototypeAccess(Handlebars)
   }))
-  app.set('view engine', 'hbs')
-  app.set('views', `${__dirname}/views`)
-  app.use(express.static(path.join(__dirname, '/src/public')));
-  app.use(express.json())
-  app.use(express.urlencoded({ extended: true }))
-  app.use(cookieParser())
-  app.use(errorHandler)
-  
- //Routes
- app.get('/', (req, res) => res.redirect('/api'))
- app.use('/api', routes)
+app.set('view engine', 'hbs')
+
+//Middlewares
+app.set('views', `${__dirname}/views`)
+app.use(express.static(path.join(__dirname, '/src/public')));
+app.use(cookieParser())
+app.use(errorHandler)
+app.use(addLogger)
+
+//Routes
+app.get('/', (req, res) => {
+  req.logger.warning('Se accedio por ruta indefinida')
+  res.redirect('/api')
+})
+app.use('/api', routes)
  
 //Cors
-  app.use(
-    cors({
-      credentials: true,
-      origin:
-        process.env.NODE_ENV === "production"
-          ? process.env.CLIENT_URL
-          : "http://localhost:8080",
-    }))
+app.use(
+  cors({
+    credentials: true,
+    origin:
+    process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : "http://localhost:8080",
+}))
 
