@@ -12,7 +12,8 @@ import cookieParser from "cookie-parser"
 import config from "../src/config/config.js"
 import errorHandler from "../src/middlewares/errors/index.js"
 import { addLogger } from "../src/utils/logger.js"
-
+import ErrorList from "./utils/ErrorList.js"
+import CustomError from "./utils/CustomError.js"
 
 //Configuracion del servidor
 const app = express()

@@ -17,11 +17,12 @@ class sessionsController {
   }
 
   async postToRegister(req, res) {
+    req.logger.info("Register succesfully")
     res.render('login', { message: "Te has registrado exitosamente" })
   }
 
   async failedRegister(req, res) {
-    console.log('Ha ocurrido un error con el registro ')
+    req.logger.error("Ocurrio un error en el registro")
     res.send({ status: 'failure', message: "Ha ocurrido un error en el registro" })
   }
 
@@ -37,6 +38,7 @@ class sessionsController {
     if (checkedAccount) {
       const token = jwt.sign({ user: userToSign.email, role: userToSign.role }, 'coderSecret', { expiresIn: '15m' }, { withCredentials: true });
       res.cookie('coderCookieToken', token, { maxAge: 60 * 60 * 60, httpOnly: true, withCredentials: false });
+      req.logger.info("El Usuario inicio sesión")
       res.redirect('/api/session/current')
 
     }
@@ -44,7 +46,7 @@ class sessionsController {
   }
 
   async getFailedRegisterPage(req, res) {
-    console.log('Ha ocurrido un error en el registro')
+    req.logger.error("Ha ocurrido un error en el registro")
     res.send({ status: 'failure', message: 'Ha ocurrido un error en el registro' })
 
   }

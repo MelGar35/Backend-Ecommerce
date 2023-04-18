@@ -22,6 +22,7 @@ class cartController {
 
     try {
       const carts = await cartValidator.getCarts(limit)
+      req.logger.debug(carts)
       res.render('carts', {carts})
     } catch (error) {
       res.json(error)
@@ -53,8 +54,9 @@ class cartController {
 `, attachments: []
 
       })
+      req.logger.info("Mail sent")
     } catch (error) {
-      console.log("Something has happened", error)
+      req.logger.error("Something has happened", error)
       res.status(400).json({ info: `Something has happened: ${error}` })
     }
 
@@ -70,6 +72,7 @@ class cartController {
 
     try {
       await cartValidator.updateCart(cid, product)
+      req.logger.info("Product has been updated")
       res.send({ status: 200, payload: await cartValidator.getCartById(cid) })
     } catch (error) {
       res.status(400).json({ error: error.message })
@@ -83,6 +86,7 @@ class cartController {
 
     try {
       await cartValidator.updateQuantityFromCart(cid, pid, quantity)
+      req.logger.info("Quantity of product has been updated")
       res.json({ message: "Quantity Updated", payload: await cartValidator.getCartById(cid) })
     } catch (error) {
       res.json({ error: error.message })
@@ -95,6 +99,7 @@ class cartController {
     const { cid, pid } = req.params;
     try {
       await cartValidator.deleteProductFromCart(cid, pid)
+      req.logger.info("Product deleted from cart")
       res.json({message:`Pid: ${pid} has been deleted from cart ${cid}`, payload : await cartValidator.getCartById(cid)})
     } catch (error) {
       res.json({error:error.message})
@@ -107,6 +112,7 @@ class cartController {
     let {cid} = (req.params)
     try {
       await cartValidator.emptyCart(cid)
+      req.logger.info("Cart Empty")
       res.json({ status: 200, message: 'Cart Empty' })
     } catch (error) {
       res.json({ error })
@@ -122,6 +128,7 @@ class cartController {
 
     try {
       const result = await cartValidator.purchase(cid, user)
+      req.logger.info("cart has been purchased")
       res.json({ message: "Se ha generado el ticket nº:", result })
     } catch (Error) {
       res.json({ error: Error.message })

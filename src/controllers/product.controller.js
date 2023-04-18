@@ -11,10 +11,11 @@ class productController {
 
     try {
       const products = await productValidator.getProducts(limit, JSON.parse(query), sort, page)
+      req.logger.debug(products.docs)
       res.render("products", {products})
       //res.json(products)postman
     } catch (error) {
-      console.log(error.message)
+      req.logger.error(`Ha ocurrido un error ${error.message}`)
       res.json(error)
     }
   }
@@ -24,6 +25,7 @@ class productController {
     try {
       res.render('mockingProducts', { products })
     } catch (error) {
+      req.logger.error("Could not get mocked products")
       res.json(error)
     }
   }
@@ -44,7 +46,7 @@ class productController {
       const addedProduct = await productValidator.createProduct(title, description, category, price, thumbnail, code, stock)
       res.status(201).json({ info: 'Producto Agregado', addedProduct })
     } catch (error) {
-      console.log("Ha ocurrido un error: \n", error)
+      req.logger.error(error)
       res.status(400).json({ info: `Ha ocurrido un error: ${error}` })
     }
 
@@ -58,6 +60,7 @@ class productController {
       await productValidator.editProduct(pid, updatedProduct)
       res.send({ status: 200, payload: updatedProduct })
     } catch (error) {
+      req.logger.error("Error editando producto: ", error.message)
       res.json({ error: error.message})
     } 
   }
@@ -68,6 +71,7 @@ class productController {
       await productValidator.deleteProduct(pid)
       res.json({ status: 200, message: 'Producto eliminado' })
     } catch (error) {
+      req.logger.error("Error eliminando producto: ", error.message)
       res.json({ error })
     }
 

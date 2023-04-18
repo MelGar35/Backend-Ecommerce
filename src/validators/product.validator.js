@@ -55,7 +55,15 @@ class productValidator {
     }
   }
 
-
+  async updateProduct(pid, updatedProduct) {
+    try {
+      if (!pid) throw new Error("Missing PID")
+      if (updatedProduct.code) throw new Error("Code field cannot be changed")
+      await productServices.editProduct(pid, newProduct)
+    } catch (error) {
+      return error;
+    }
+  }
 
   async deleteProduct(pid) {
     try {
