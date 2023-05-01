@@ -14,6 +14,9 @@ import errorHandler from "../src/middlewares/errors/index.js"
 import { addLogger } from "../src/utils/logger.js"
 import ErrorList from "./utils/ErrorList.js"
 import CustomError from "./utils/CustomError.js"
+import swaggerJSDoc from "swagger-jsdoc"
+import swaggerUi from "swagger-ui-express"
+import {swaggerOptions} from "./docs/swaggerOptions.js"
 
 //Configuracion del servidor
 const app = express()
@@ -27,6 +30,10 @@ app.listen(config.PORT, () => console.log(`Escuchando en el puerto ${config.PORT
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
+
+//Swagger
+const specs = swaggerJSDoc(swaggerOptions)
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(specs))
 
 //Handlebars
 app.engine('hbs', handlebars.engine({

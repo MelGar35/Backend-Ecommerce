@@ -23,7 +23,7 @@ class sessionsController {
 
   async failedRegister(req, res) {
     req.logger.error("Ocurrio un error en el registro")
-    res.send({ status: 'failure', message: "Ha ocurrido un error en el registro" })
+    res.send({ status: 'failure', message: "Ha ocurrido un error de registro" })
   }
 
   async postToLogin(req, res) {

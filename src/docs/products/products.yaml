@@ -1,0 +1,272 @@
+paths:
+  /api/products:
+    get:
+  sumary: "Get all products"
+  tags: 
+  - Products
+  responses:
+    "200":
+      description: "Products found"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+            $ref: "#/components/schemas/products"
+    "500":
+      description: "Internal server error"
+    post:
+      summary: "Create a new product"
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createProduct'
+      responses:
+        "201":
+          description: "Producto creado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        "500":
+          description: "Internal server error"
+        "401":
+          description: "Not authorized"
+        "400":
+          description: "Ha ocurrido un error, verifique que el codigo de producto sea distinto a los demas"
+  /api/products/{pid}:
+    get:
+      summary: 'Get product by ID'
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: "Product Id"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Product found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "500":
+          description: "Internal server error"
+    put:
+      summary: 'Update Product'
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updateProduct'
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: "Product ID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Updated Product"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+    delete:
+      summary: 'Delete a product'
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: "Product ID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Product deleted"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/products"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+components:
+  schemas:
+    products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: "Product Id"
+        title:
+          type: string
+          description: "Product Name"
+        description:
+          type: string
+          description: "Product description"
+        category:
+          type: string
+          description: "Product category"
+        price:
+          type: integer
+          description: "Product price"
+        code:
+          type: string
+          description: "Product code"
+        status:
+          type: boolean
+          description: "Product status"
+        stock: 
+          type: integer
+          description: "Product Stock"
+        image:  
+          type: string
+          description: "Product image"
+        owner: 
+          type: string
+          description: "Product Owner"
+      example:
+        _id: 5fg9gf9gh9rr9h9y9
+        title: "Mazo Gatitos"
+        description: "48 cartas" 
+        category: "Mazos"
+        price: 4500
+        code: "A12"
+        status: true
+        stock: 15
+        owner: "melisagarciadeveloper@gmail.com" 
+        image: "https://mazogatitos.png"
+    product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: "Product ID"
+        title:
+          type: string
+          description: "Product Name"
+        description:
+          type: string
+          description: "Product description"
+        category:
+          type: string
+          description: "Product category"
+        price:
+          type: integer
+          description: "Product price"
+        code:
+          type: string
+          description: "Product code"
+        status:
+          type: boolean
+          description: "Product status"
+        stock: 
+          type: integer
+          description: "Product Stock"
+        image:  
+          type: string
+          description: "Product image"
+        owner: 
+          type: string
+          description: "Product Owner"
+      example:
+        _id: 4d58f59f9g9t99e9
+        title: "Un curso de Milagros"
+        description: "Libro 500 paginas" 
+        category: "Libros"
+        price: 9800
+        code: "A8"
+        status: true
+        stock: 5
+        owner: "melisagarciadeveloper@gmail.com" 
+  requestBodies:
+    createProduct:
+      properties:
+        title:
+          type: string
+          description: "Product Name"
+        description:
+          type: string
+          description: "Product description"
+        category:
+          type: string
+          description: "Product category"
+        price:
+          type: integer
+          description: "Product price"
+        code:
+          type: string
+          description: "Product code"
+        status:
+          type: boolean
+          description: "Product status"
+        stock: 
+          type: integer
+          description: "Product Stock"
+        thumbnail: 
+          type: string
+          format: binary
+      example:
+        title: "sahumo Akasha"
+        description: "de Romero y Lavanda"
+        category: "Sahumos"
+        price: 500
+        code: "A85"
+        status: true
+        stock: 25
+    updateProduct: 
+      properties:
+        title:
+          type: string
+          description: "Product Name"
+        description:
+          type: string
+          description: "Product description"
+        category:
+          type: string
+          description: "Product category"
+        price:
+          type: integer
+          description: "Product price"
+        stock: 
+          type: integer
+          description: "Product Stock"
+        thumbnail: 
+          type: string
+          format: binary
+      example:
+        title: "Ingresa el nuevo nombre o modifica cualquiera de los campos"
+        description: "sahumo Akasha"
+        category: "Sahumos"
+        price: 500
+        status: true
+        stock: 25

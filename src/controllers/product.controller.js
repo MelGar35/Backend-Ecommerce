@@ -49,10 +49,19 @@ class productController {
       req.logger.error(error)
       res.status(400).json({ info: `Ha ocurrido un error: ${error}` })
     }
+  
+    const buyer = req.user.user
+    req.logger.debug(`el usuario es ${buyer}`)
+    try {
+      const addedProduct = await productValidator.createProduct(title, description, category, price, thumbnailName, code, stock, buyer )
+      res.status(201).json({ info: "Producto Agregado", addedProduct })
+    } catch (error) {
+      res.status(400).json({ message: "Ha ocurrido un erorr", error: error.message })
 
-
+    }
   }
 
+  
   async editProduct(req, res) {
     const pid = (req.params.pid)
     let updatedProduct = req.body
