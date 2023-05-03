@@ -47,16 +47,13 @@ class cartController {
   async createCart(req, res) {
     try {
       await cartValidator.createCart()
-      res.status(201).json({
-        info: 'Cart Created'
-      })
       await transport.sendMail({
         from: 'Melisa <nicecup.ventas@gmail.com>',
         to: req.user.user,
         subject: 'Nuevo carrito creado',
         html: `
          <div>
-          <h1> Has creado un carrito! </h1>
+          <h1> Has creado un carrito </h1>
         </div> 
 `,
         attachments: []
@@ -84,10 +81,9 @@ class cartController {
       quantity: quantity
     }
 
-
-
     try {
-      await cartValidator.updateCart(cid, product)
+      const user = req.user
+      await cartValidator.updateCart(cid, product, user)
       req.logger.info("Product has been updated")
       res.send({
         status: 200,
@@ -102,13 +98,8 @@ class cartController {
 
   async updateQuantityFromCart(req, res) {
 
-    const {
-      cid,
-      pid
-    } = req.params
-    const {
-      quantity
-    } = req.body
+    const {cid, pid} = req.params
+    const {quantity} = req.body
 
     try {
       await cartValidator.updateQuantityFromCart(cid, pid, quantity)
@@ -118,19 +109,15 @@ class cartController {
         payload: await cartValidator.getCartById(cid)
       })
     } catch (error) {
-      res.json({
-        error: error.message
-      })
-
+      console.log(error)
+      req.logger.error("No se ha actualizado el producto en el carrito")
+      res.json({ error: error })
     }
 
   }
 
   async deleteProductFromCart(req, res) {
-    const {
-      cid,
-      pid
-    } = req.params;
+    const {cid,pid} = req.params;
     try {
       await cartValidator.deleteProductFromCart(cid, pid)
       req.logger.info("Product deleted from cart")

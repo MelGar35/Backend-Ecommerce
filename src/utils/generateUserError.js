@@ -7,8 +7,6 @@ const generateUserError = user => {
     *age : needs to be a Number, received ${user.age}
     *phone : needs to be a Number, received ${user.phone}
     *Role : needs to be a String, received ${user.role}
-  
-  
   `
   }
   

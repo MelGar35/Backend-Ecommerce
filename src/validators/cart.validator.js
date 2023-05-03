@@ -1,6 +1,6 @@
 import twilio from "twilio"
-import config from "../config/config.js";
-
+import config from "../config/config.js"
+import { logger } from "../utils/logger.js"
 import { CartsService as cartsServices, ProductService } from "../repositories/index.js"
 
 
@@ -33,14 +33,25 @@ class cartsValidator {
     }
   }
 
-  async updateCart(cid, product) {
+
+  async updateCart(cid, product, user) {
     //chequeando productos en bd
-   let enExistencia = await productServices.findById(product.product)
+    let enExistencia = await ProductService.getProductById(product.product)
+    logger.debug(`Comprobando que el producto exista en la base de datos ${enExistencia}`)
+    logger.debug(`El owner del producto es ${enExistencia.owner}`)
+    logger.debug(`El rol del usuario que intenta agregar el producto es : ${user.role}`)
+  
+  
+    if (!cid) throw new Error("Missing CID")
+    if (!enExistencia) throw new Error("Product not found in DB")
+    if (user.role === 'premium' && enExistencia.owner === user.user) {
+    logger.debug(`Hemos entrado en la condicion necesaria`)
+    throw new Error("A premium user cannot add to cart its own products")
+  }
+  
     try {
-      if (!cid) throw new Error("Missing CID")
-      if (!enExistencia) throw new Error("Product not found in DB")
-      
-      await cartsServices.updateCart(cid,product)
+  
+      await cartsServices.updateCart(cid, product)
     } catch (error) {
       return error;
     }

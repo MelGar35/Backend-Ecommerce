@@ -1,0 +1,199 @@
+paths:
+  /api/carts/:
+    get:
+      summary: 'Get all carts'
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: "Carts found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/carts"
+        "500":
+          description: "Internal server error"
+    post:
+      summary: "Create a new cart"
+      tags:
+        - Carts
+      responses:
+        "201":
+          description: "Cart Created"
+        "500":
+          description: "Internal server error"
+        "401":
+          description: "Not authorized"
+  /api/carts/{cid}:
+    get:
+      summary: 'Get cart by ID'
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: "Cart ID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Cart found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/carts"
+        "500":
+          description: "Internal server error"
+    put:
+      summary: 'Update Cart'
+      tags:
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updateCart'
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: "Cart ID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Updated Product"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/cart"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: 'Delete a product from cart'
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: "Cart ID"
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: "Product ID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Product deleted"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+    put:
+      summary: 'Update quantity of a product in a specified cart'
+      tags:
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updateQuantityFromCart'
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: "Cart ID"
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: "Product ID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Product Updated"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+  /api/carts/{cid}/purchase:
+    post:
+      summary: 'Purchase a cart'
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: "Cart ID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Cart purchased"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+components:
+  schemas:
+    carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: "Cart ID"
+        products:  
+          type: array
+          description: "Products in cart"
+      example:
+        _id: 5089af5864ee1578gh9
+        products: {"product":"5090af8594ee165hfg9", "quantity":5, "_id":"5091af8594ee165hghj9"}
+  requestBodies:
+    updateCart:
+      properties:
+        quantity:
+          type: integer
+          description: "Product Quantity"
+        pid:
+          type: string
+          description: "Product ID"
+      example:
+        quantity: 6
+        pid: "5090af8594ee165hfg9"
+    updateQuantityFromCart: 
+      properties:
+        quantity:
+          type: integer
+          description: "Product Quantity"
+        pid:
+          type: string
+          description: "Product ID"
+      example:
+        quantity: 6

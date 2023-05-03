@@ -20,7 +20,14 @@ const levelOptions = {
     }
   }
   
-  const prodLogger = winston.createLogger({
+  const prettyJson = winston.format.printf(info => {
+    if (info.message.constructor === Object) {
+      info.message = JSON.stringify(info.message, null, 4)
+    }
+    return `${info.level}: ${info.message}`
+  })
+  
+  export const logger = winston.createLogger({
     levels: levelOptions.levels,
     transports: [
       new winston.transports.Console({
@@ -28,6 +35,7 @@ const levelOptions = {
         format: winston.format.combine(
           winston.format.colorize({ colors: levelOptions.colors }),
           winston.format.simple(),
+          prettyJson
         )
       }),
   
@@ -39,24 +47,13 @@ const levelOptions = {
     ]
   })
   
-  const devLogger = winston.createLogger({
-    transports: [
-      new winston.transports.Console({
-        level: config.NODE_ENV,
-      })
-    ]
-  })
-
-  export const addLogger = (req, res, next) => {
-    if(process.env.NODE_ENV === 'production') {
-      req.logger = prodLogger;
-      req.logger.info(`${req.method} en ${req.url} - ${new Date().toLocaleTimeString()}`)
-    } else {
-      req.logger = devLogger;
-      req.logger.debug(`${req.method} en ${req.url} - ${new Date().toLocaleTimeString()}`)
-    }
   
-    next()
+  export const addLogger = (req, res, next) => {
+    req.logger = logger;
+    req.logger.info(`${req.method} en ${req.url} - ${new Date().toLocaleTimeString()}`)
+    next();
+  
   }
+
   
   

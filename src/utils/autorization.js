@@ -1,5 +1,6 @@
 const authorization = (role) => {
     return async (req, res, next) => {
+      req.logger.debug(`El rol del usuario es: ${req.user.role}`)
       if(!req.user) {
         return res.status(401).json({ message: "No estas logueado" })
       }
@@ -13,7 +14,8 @@ const authorization = (role) => {
   
   
      if(permiso === false) {
-        return res.status(401).json({ message: "Not an Admin, dont have permission" })
+      req.logger.warning("No has iniciado sesion")
+      res.status(403).json({ message: 'No tienes permisos para realizar esta tarea'})
       }
     
       next()
