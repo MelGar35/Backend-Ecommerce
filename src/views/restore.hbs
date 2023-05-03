@@ -1,0 +1,68 @@
+ {{#unless update}}
+<form method="post" action="/api/session/restore">
+
+  <label for="text">Indicanos cual es tu mail</label>
+  <input type="text" name="email"  required>
+  <button type="submit">Enviar </button>
+</form>
+
+
+{{updateUserMessage}}
+  {{/unless}}
+
+ <h2 id="mailMessage"></h2> 
+ <h3 id='token'>{{token}}</h3>
+ {{#if update}}
+ <form  id="form" style="display:flex;  flex-direction:column;"  >
+   <label style="padding-top: 10px;" for="text">Indicanos tu nueva contraseña</label>
+  <input id="newPassword" type="password" name="newPassword" required> 
+  <label  style="padding-top: 10px;" for="text">Escriba nuevamente su nueva contraseña</label>
+  <input type="password" name="confirmPassword"   required title="Ingrese la misma contraseña que arriba">
+  <button id="enviarPeticion" type="submit">Enviar </button>
+</form>
+
+
+
+
+  {{/if}}
+  {{message}}
+
+<h3 id="fetchResponse"></h3>
+
+
+<script>
+const token= document.getElementById('token').innerHTML
+
+const enviar= document.getElementById("form").addEventListener('submit', (event) => {
+  event.preventDefault()
+    console.log(token)
+    console.log("Enviando peticion")
+
+const fetchResponse = document.getElementById("fetchResponse")
+const data = {
+  newPassword : document.getElementById('newPassword').value
+  }
+
+
+  fetch(`/api/session/updateUser/${token}`, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body:JSON.stringify(data)
+})
+  .then(response => {
+    if (response.ok) {
+      console.log('Recurso actualizado correctamente');
+      window.location.href= "/api/session/login"
+
+    } else {
+      fetchResponse.innerHTML = "Ha ocurrido un error, fijate que no hayas repetido la contraseña anterior"
+      console.log(response)
+    } 
+  })
+  .catch(error => console.error(error));
+
+
+  })
+</script>

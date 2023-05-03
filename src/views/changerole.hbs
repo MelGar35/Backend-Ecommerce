@@ -1,0 +1,53 @@
+<h1>Ingresa el mail del usuario al que quieres cambiar el rol </h1>
+<table>
+	<thead>
+		<tr>
+			<td>Username</td>
+			<td>Email</td>
+			<td>Role</td>
+			<td>UID</td>
+		</tr>
+	</thead>
+	<tbody>
+    {{#each users}}
+            <tr>
+			<td>{{this.username}}</td>
+			<td>{{this.email}}</td>
+			<td>{{this.role}}</td>
+			<td>{{this._id}}</td>
+
+		</tr>
+        {{/each}}
+	</tbody>
+</table>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+<input id="uid" placeholder="Ingresa el UID del usuario">
+        <select class="form-select" name="role" id="role">
+      <option value="user" selected>User</option>
+      <option value="premium">Premium</option>
+
+    </select>
+
+
+<button id="sendButton">Cambiar rol</button>
+
+<h3>
+  {{{message}}}
+
+</h3>
+
+
+
+      <script type="module" src="/changerole.js"> 
+
+      </script>
+
