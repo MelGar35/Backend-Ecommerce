@@ -5,4 +5,4 @@ const ErrorList = {
     DATABASE_ERROR: 4
   }
   
-  export default ErrorList;
+  export default ErrorList

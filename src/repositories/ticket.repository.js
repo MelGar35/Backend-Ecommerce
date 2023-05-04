@@ -6,6 +6,4 @@ export default class ticketRepository {
   async createTicket(ticket) {
     return await this.dao.createTicket(ticket)
   }
-
-
 }

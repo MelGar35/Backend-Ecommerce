@@ -10,32 +10,27 @@ const transport = nodemailer.createTransport({
     user: config.NODEMAILER_ACCOUNT,
     pass: config.NODEMAILER_PASS,
   },
-});
-
+})
 
 class cartController {
-
 
   async getCarts(req, res) {
 
     let limit = parseInt(req.query.limit)
 
     try {
-      const carts = await cartValidator.getCarts(limit)
-      req.logger.debug(carts)
-      res.render('carts', {
-        carts
-      })
+      const result = await cartValidator.getCarts(limit)
+      req.logger.debug(result)
+      res.render('carts', {result})
     } catch (error) {
       res.json(error)
     }
   }
 
-
   async getCartById(req, res) {
     const carts = await cartValidator.getCartById(req.params.cid)
     try {
-      req.logger.debug(`Resultado de getCartbyId en controler ${carts}`)
+      req.logger.debug(`Resultado de getCartbyId ${result}`)
       res.render('cartById', {
         carts
       })
@@ -54,37 +49,27 @@ class cartController {
         html: `
          <div>
           <h1> Has creado un carrito </h1>
-        </div> 
-`,
+        </div> `,
         attachments: []
-
       })
-      req.logger.info("Mail sent")
+      req.logger.info("Mail enviado")
     } catch (error) {
-      req.logger.error("Something has happened", error)
+      req.logger.error("Ha ocurrido un error", error)
       res.status(400).json({
-        info: `Something has happened: ${error}`
+        info: `Ha ocurrido un error: ${error}`
       })
     }
-
-
   }
 
   async updateCart(req, res) {
     const cid = (req.params.cid)
-    const {
-      quantity,
-      pid
-    } = req.body;
-    const product = {
-      product: pid,
-      quantity: quantity
-    }
+    const {quantity,pid} = req.body;
+    const product = {product: pid, quantity: quantity}
 
     try {
       const user = req.user
       await cartValidator.updateCart(cid, product, user)
-      req.logger.info("Product has been updated")
+      req.logger.info("El producto ha sido actualizado")
       res.send({
         status: 200,
         payload: await cartValidator.getCartById(cid)
@@ -103,9 +88,9 @@ class cartController {
 
     try {
       await cartValidator.updateQuantityFromCart(cid, pid, quantity)
-      req.logger.info("Quantity product has been updated")
+      req.logger.info("La cantidad del producto fue actualizada")
       res.json({
-        message: "Quantity Updated",
+        message: "Cantidad Actualizada",
         payload: await cartValidator.getCartById(cid)
       })
     } catch (error) {
@@ -120,9 +105,9 @@ class cartController {
     const {cid,pid} = req.params;
     try {
       await cartValidator.deleteProductFromCart(cid, pid)
-      req.logger.info("Product deleted from cart")
+      req.logger.info("Producto eliminado del carrito")
       res.json({
-        message: `Pid: ${pid} has been deleted from cart ${cid}`,
+        message: `El producto: ${pid} fue eliminado del carrito ${cid}`,
         payload: await cartValidator.getCartById(cid)
       })
     } catch (error) {
@@ -132,51 +117,39 @@ class cartController {
     }
   }
 
-
-
   async emptyCart(req, res) {
-    let {
-      cid
-    } = (req.params)
+    let {cid} = (req.params)
     try {
       await cartValidator.emptyCart(cid)
-      req.logger.info("Cart Empty")
+      req.logger.info("El carrito ha sido vaciado")
       res.json({
         status: 200,
-        message: 'Cart Empty'
-      })
+        message: "Carrito Eliminado"})
     } catch (error) {
       res.json({
         error
       })
-    }
+    }}
 
-  }
   async purchase(req, res) {
 
-
-    let {
-      cid
-    } = (req.params)
+    let {cid} = (req.params)
     let user = req.user
-
 
     try {
       const result = await cartValidator.purchase(cid, user)
-      req.logger.info("cart has been purchased")
+      req.logger.info("El carrito ha sido comprado")
       res.json({
         message: "Se ha generado el ticket Nº:",
         result
       })
-    } catch (Error) {
+    } catch (error) {
       res.json({
-        error: Error.message
+        error: error.message
       })
 
     }
-
   }
-
 }
 
 export default new cartController()

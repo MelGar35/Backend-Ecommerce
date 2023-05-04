@@ -33,7 +33,4 @@ export default class CartsRepository {
   async purchase(cid) {
     return await this.dao.purchase(cid)
   }
-
-
-
 }

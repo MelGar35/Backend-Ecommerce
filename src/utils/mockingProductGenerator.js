@@ -16,10 +16,7 @@ export default function mockingProductGenerator() {
       status: true,
       stock: faker.datatype.number(200),
       _id: faker.database.mongodbObjectId()
-
-
     })
-
   }
 
   return mockingProducts

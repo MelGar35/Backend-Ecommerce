@@ -6,8 +6,7 @@ const generateProductError = product => {
     *category : needs to be a Non-Empty String, received ${product.category}
     *price : needs to be a Non-Empty Number, received ${product.price}
     *code : needs to be a Non-Empty Number, received ${product.code}
-    *stock : needs to be a Non-Empty String, received ${product.stock}
-  `
+    *stock : needs to be a Non-Empty String, received ${product.stock}`
   }
   
   export default generateProductError

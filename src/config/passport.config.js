@@ -3,9 +3,7 @@ import jwt from 'passport-jwt';
 import local from 'passport-local'
 import usersDto from "../daos/dto/users.dto.js"
 import usersDao from '../daos/mongo/users.mongo.js'
-import {
-  hashPassword as createHash
-} from '../utils/crypted.js'
+import {hashPassword as createHash} from '../utils/crypted.js'
 import CustomError from '../utils/CustomError.js'
 import generateUserError from '../utils/generateUserError.js'
 import ErrorList from '../utils/ErrorList.js';
@@ -63,7 +61,7 @@ const initializePassport = () => {
 
     if (!first_name || !last_name || !email || !/^[0-9]*$/.test(age) || !age || !phone || !/\+[0-9]+/i.test(phone) || !role) {
       CustomError.createError({
-        name: "Error creating user",
+        name: "Error al crear Usuario",
         cause: generateUserError({
           first_name,
           last_name,
@@ -72,7 +70,7 @@ const initializePassport = () => {
           phone,
           role
         }),
-        message: "Error trying to register user",
+        message: "Error al tratar de Registrar Usuario",
         code: ErrorList.INVALID_TYPE_ERROR
       })
     }
@@ -93,7 +91,5 @@ const initializePassport = () => {
     }
   }))
 }
-
-
 
 export default initializePassport

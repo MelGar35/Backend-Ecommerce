@@ -1,4 +1,4 @@
-import sessionValidator from '../validators/session.validator.js'
+import sessionValidator from "../validators/session.validator.js"
 import jwt from "jsonwebtoken"
 import currentUserDto from "../daos/dto/currentUser.dto.js"
 import config from "../config/config.js"
@@ -8,10 +8,10 @@ const transport = nodemailer.createTransport({
   service: "gmail",
   port: 587,
   auth: {
-    user: "nicecup.ventas@gmail.com",
-    pass: "pimstlgvbyklgvay",
-  },
-});
+    user: config.NODEMAILER_ACCOUNT,
+    pass: config.NODEMAILER_PASS,
+  }
+})
 
 class sessionsController {
 
@@ -28,7 +28,7 @@ class sessionsController {
   }
 
   async postToRegister(req, res) {
-    req.logger.info("Register succesfully")
+    req.logger.info("Registro exitoso")
     res.render('login', { message: "Te has registrado exitosamente" })
   }
 
@@ -43,17 +43,15 @@ class sessionsController {
     const checkedAccount = await sessionValidator.checkAccount(email, password)
     const userToSign = new currentUserDto(checkedAccount)
 
-    if (checkedAccount === 'NoMailNorPassword') return res.send('Mail or password missing')
-    if (checkedAccount === 'NoUser') return res.send('User has not been found')
-    if (checkedAccount === 'IncorrectPassword') return res.send('Incorrect Password')
+    if (checkedAccount === 'NoMailNorPassword') return res.send("Mail o password extraviados")
+    if (checkedAccount === 'NoUser') return res.send("Usuario no encontrado")
+    if (checkedAccount === 'IncorrectPassword') return res.send("Password Incorrecto")
     if (checkedAccount) {
-      const token = jwt.sign({ user: userToSign.email, role: userToSign.role }, 'coderSecret', { expiresIn: '15m' }, { withCredentials: true });
-      res.cookie('coderCookieToken', token, { maxAge: 60 * 60 * 60, httpOnly: true, withCredentials: false });
+      const token = jwt.sign({ user: userToSign.email, role: userToSign.role, phone: userToSign.phone }, "coderSecret", { expiresIn: "30m" }, { withCredentials: false });
+      res.cookie('coderCookieToken', token, { maxAge: 60 * 60 * 60, httpOnly: false, withCredentials: false });
       req.logger.info("El Usuario inicio sesión")
       res.redirect('/api/session/current')
-
     }
-
   }
 
   async getFailedRegisterPage(req, res) {
@@ -63,14 +61,14 @@ class sessionsController {
   }
 
   async getRestorePage(req, res) {
-    req.logger.info("To restore password")
+    req.logger.info("Reestablecer contraseña")
     res.render('restore')
 
   }
 
 
   async restore(req, res) {
-    req.logger.info("To restore password")
+    req.logger.info("Reestablecer contraseña")
     const { email } = req.body;
     req.logger.debug(`Email enviado para restaurar contraseña: ${email}`)
 
@@ -80,28 +78,23 @@ class sessionsController {
       await transport.sendMail({
         from: 'Melisa <nicecup.ventas@gmail.com>',
         to: email,
-        subject: 'Restore password',
+        subject: 'Restablecer Contraseña',
         html: `
          <div>
-          <h1> Hi! You can restore your password, follow this link</h1>
-<h3>http://localhost:${config.PORT}/api/session/updateUser/${token}</h3>
-
-        </div> 
-`, attachments: []
-
+          <h1> Hola! Para reestablecer tu contraseña, sigue el siguiente link</h1>
+          <h3>
+          http://localhost:${config.PORT}/api/session/updateUser/${token}
+          </h3>
+        </div> `,
+         attachments: []
       })
 
       res.render("restore", { message: "Un mail te ha sido enviado" })
 
     } else {
-      res.render('restore', { message: "User not found" })
+      res.render('restore', { message: "Usuario no encontrado" })
     }
-
-
-
   }
-
-
 
   async getUpdateUserPage(req, res) {
 
@@ -122,15 +115,12 @@ class sessionsController {
         update: false, message: 'Token caducado'
       })
 
-
-
     } else if (response) {
       res.render('restore', {
         update: true,
         token: response[0].token,
         message: ""
       })
-
     }
     else {
       res.render('restore', { message: "No auth token" })
@@ -139,29 +129,21 @@ class sessionsController {
 
   async updateUser(req, res) {
 
-
     const { newPassword } = req.body
     const token = (req.params.token)
     req.logger.http("Entrando en ruta updateUser")
     req.logger.debug(`El token es ${token} y la nueva contraseña es ${newPassword}`)
 
-
-
     try {
       const response = await sessionValidator.updateUser(token, newPassword)
-      req.logger.debug("Updated!")
-      res.json({ message: "Updated" })
+      req.logger.debug("Actualizado!")
+      res.json({ message: "Actualizado" })
 
     } catch (error) {
       req.logger.error("Contraseña Repetida")
       if (error === "No Token found") res.status(404).json({ error: error.message })
       res.status(401).json({ error: error.message })
-
     }
-
-
-
-
   }
 
   async changeRolePage(req, res) {
@@ -181,12 +163,10 @@ class sessionsController {
       res.render('changerole', { users })
     } catch (error) {
       console.log(error.message)
-      res.status(400).json({ message: "An error as occurred" })
-
+      res.status(400).json({ message: "Ha ocurrido un error inesperado" })
     }
   }
 }
-
 
 
 export default new sessionsController()

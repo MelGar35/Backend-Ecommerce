@@ -22,10 +22,12 @@ export default class UsersRepository {
   async updateUser(id, data) {
     return await this.dao.updateUser(id, data)
   }
+
   async deleteUser(id) {
     return await this.dao.deleteUser(id)
   }
 
-
-
+  async getUserByToken(token) {
+    return await this.dao.getUserByToken(token)
+  }
 }

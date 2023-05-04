@@ -32,8 +32,8 @@ class productController {
   }
   
   async getProductById(req, res) {
-    console.log(req.params.pid)
-    const products = await productValidator.getProductById(req.params.pid)
+    const pid = req.params.pid
+    const products = await productValidator.getProductById(pid)
     try {
       res.status(200).json({ products })
     } catch (error) {
@@ -57,12 +57,11 @@ class productController {
       const addedProduct = await productValidator.createProduct(title, description, category, price, thumbnail, code, stock, owner )
       res.status(201).json({ info: "Producto Agregado", addedProduct })
     } catch (error) {
-      res.status(400).json({ message: "Ha ocurrido un erorr", error: error.message })
+      res.status(400).json({ message: "Ha ocurrido un error", error: error.message })
 
     }
   }
 
-  
   async editProduct(req, res) {
     const pid = (req.params.pid)
     let updatedProduct = req.body
@@ -88,9 +87,7 @@ class productController {
       req.logger.error("Error eliminando producto: ", error.message)
       res.json({ error: error.message })
     }
-
 }
-
 }
 
 export default new productController()

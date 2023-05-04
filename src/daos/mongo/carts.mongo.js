@@ -61,5 +61,5 @@ class cartDao {
 
 }
 
-export default new cartDao();
+export default new cartDao()
 

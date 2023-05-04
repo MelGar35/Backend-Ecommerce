@@ -12,7 +12,6 @@ export default {
   NODEMAILER_ACCOUNT: process.env.NODEMAILER_ACCOUNT,
   NODEMAILER_PASS: process.env.NODEMAILER_PASS,
   NODE_ENV: process.env.NODE_ENV,
-
 }
 
 

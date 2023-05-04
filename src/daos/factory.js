@@ -1,5 +1,5 @@
 import config from '../config/config.js';
-import mongoose from 'mongoose';
+import mongoose from "mongoose"
 
 
 export let Users;
@@ -10,13 +10,13 @@ export let Ticket;
 
 switch (config.PERSISTENCE) {
   case 'MONGO':
-    console.log('Persistence from DB')
+    console.log('Persistencia en Base de Datos')
     mongoose.set('strictQuery', true)
     const connect = mongoose.connect(config.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-      .then(() => console.log("DB is connected"))
+      .then(() => console.log("La Base de datos esta conectada"))
       .catch((err) => console.error(err))
 
 
@@ -34,14 +34,12 @@ switch (config.PERSISTENCE) {
 
 
   case 'MEMORY':
-
-
     const { default: usersMemory } = await import('./memory/users.memory.js')
     const { default: productMemory } = await import('./memory/products.memory.js')
     const { default: cartMemory } = await import('./memory/carts.memory.js')
 
 
-    console.log("Persistence from memory")
+    console.log("Persistence en memoria")
     Users = usersMemory;
     Products = productMemory;
     Carts = cartMemory;

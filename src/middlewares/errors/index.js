@@ -7,6 +7,6 @@ export default (error, req, res, next) => {
       res.send({ status: "Error", error: error.name })
       break;
     default:
-      res.send({ status: "Error", error: "Unhandled Error" })
+      res.send({ status: "Error", error: "Error no controlado" })
   }
 }

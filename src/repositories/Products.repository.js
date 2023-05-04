@@ -12,7 +12,11 @@ export default class ProductRepository {
   }
 
   async createProduct(product) {
-    return await this.dao.createProduct(product)
+    try {
+      return await this.dao.createProduct(product)
+    } catch (error) {
+      throw new Error (error)
+    }
   }
 
   async updateProduct(pid, updatedProduct) {
@@ -22,6 +26,4 @@ export default class ProductRepository {
   async deleteProduct(pid) {
     return await this.dao.deleteProduct(pid)
   }
-
-
 }

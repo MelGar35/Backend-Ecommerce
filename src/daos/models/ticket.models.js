@@ -1,4 +1,3 @@
-
 import { Schema, model } from "mongoose";
 
 const ticketSchema = new Schema({
@@ -15,5 +14,5 @@ const ticketSchema = new Schema({
   purchase_datetime: { type: Date, default: Date.now }
 })
 
-const ticketModel = model('ticket', ticketSchema);
-export default ticketModel;
+const ticketModel = model("ticket", ticketSchema);
+export default ticketModel

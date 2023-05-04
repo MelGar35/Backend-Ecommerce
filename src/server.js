@@ -26,6 +26,11 @@ app.use(express.urlencoded({ extended: true }))
 
 app.listen(config.PORT, () => console.log(`Escuchando en el puerto ${config.PORT}`))
 
+//Passport
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
 //Swagger
 const specs = swaggerJSDoc(swaggerOptions)
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(specs))
@@ -60,7 +65,4 @@ app.use(
     process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : "http://localhost:3000",
 }))
 
-//Passport
-initializePassport()
-app.use(passport.initialize())
-app.use(passport.session())
+

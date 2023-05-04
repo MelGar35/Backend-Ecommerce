@@ -11,10 +11,13 @@ class productDao {
   }
 
 
-  async getProductById(id) {
-    return productModel.findById(id)
+  async getProductById(pid) {
+    try {
+      return await productModel.findById(pid)
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
-
 
   async createProduct(product) {
     try {
