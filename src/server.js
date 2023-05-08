@@ -17,6 +17,9 @@ import CustomError from "./utils/CustomError.js"
 import swaggerJSDoc from "swagger-jsdoc"
 import swaggerUi from "swagger-ui-express"
 import {swaggerOptions} from "./docs/swaggerOptions.js"
+import session from "express-session"
+import MongoStore from "connect-mongo"
+
 
 //Configuracion del servidor
 const app = express()
@@ -49,6 +52,21 @@ app.use(express.static(path.join(__dirname, '/src/public')));
 app.use(cookieParser())
 app.use(errorHandler)
 app.use(addLogger)
+app.use( session(
+  {
+  store: MongoStore.create({
+      mongoUrl: "mongodb+srv://Meli:Melisa537@noeserver.c5gx1p7.mongodb.net/Login?retryWrites=true&w=majority",
+      mongoOptions:{
+          useNewUrlParser: true,
+          useUnifiedTopology:true,
+      },
+      ttl:60,
+  }),
+  secret: "coderhouse",
+  resave: false,
+  saveUninitialized: false,
+})
+)
 
 //Routes
 app.get('/', (req, res) => {
