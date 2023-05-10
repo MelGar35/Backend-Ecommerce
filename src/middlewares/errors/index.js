@@ -1,7 +1,7 @@
 import ErrorList from '../../utils/ErrorList.js'
 
 export default (error, req, res, next) => {
-  console.log(error.cause)
+  console.log(error.stack)
   switch (error.code) {
     case ErrorList.INVALID_TYPE_ERROR:
       res.send({ status: "Error", error: error.name })
@@ -9,4 +9,5 @@ export default (error, req, res, next) => {
     default:
       res.send({ status: "Error", error: "Error no controlado" })
   }
+  next()
 }

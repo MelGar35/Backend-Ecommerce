@@ -1,37 +1,34 @@
-<h1>Carritos por carrito</h1>
-<h3>Inicia sesion en api/session/login para crear tu carrito</h3>
-<form action="/api/carts" method="post">
 
-  <button>
+<div class="p-2">
+<h2 class="m-1">Carritos</h2>
+<br>
+<h3 class="m-1">Inicia sesion en api/session/login para crear tu carrito</h3>
+<form action="/api/carts" method="post">
+<br>
+<button class="btn btn-primary m-1">
     Crear Carrito
-  </button>
+</button>
   
 </form>
 
-<ul class="people_list">
 
+<ul class="people_list">
   {{#each result}}
 
   <li>Carrito Numero: {{this._id}}</li>
+
   </br>
 
-
-  <button>
-    <a href="/api/carts/{{this._id}}" target="_blank"></a>
-    Ver detalle
+  <button class="btn btn-dark">
+    <a href="/api/carts/{{this._id}}" target="_blank">Ver detalle</a>
   </button>
 
-  </br>
-  </br>
-
-
+  </br> </br>
 
   {{#if this.products}}
 
   <form action="/api/carts/{{this._id}}/purchase" method="post">
-
-    <button> Comprar! </button>
-
+    <button class="btn btn-primary m-1"> Comprar!</button>
   </form>
 
   {{/if}}
@@ -41,3 +38,4 @@
 
   {{/each}}
 </ul>
+</div>

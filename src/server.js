@@ -6,8 +6,6 @@ import Handlebars from "handlebars"
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access"
 import path from "path"
 import initializePassport from "../src/config/passport.config.js"
-import passport from "passport"
-import cors from "cors"
 import cookieParser from "cookie-parser"
 import config from "../src/config/config.js"
 import errorHandler from "../src/middlewares/errors/index.js"
@@ -31,8 +29,8 @@ app.listen(config.PORT, () => console.log(`Escuchando en el puerto ${config.PORT
 
 //Passport
 initializePassport()
-app.use(passport.initialize())
-app.use(passport.session())
+//app.use(passport.initialize())
+//app.use(passport.session())
 
 //Swagger
 const specs = swaggerJSDoc(swaggerOptions)
@@ -75,12 +73,5 @@ app.get('/', (req, res) => {
 })
 app.use('/api', routes)
  
-//Cors
-app.use(
-  cors({
-    credentials: true,
-    origin:
-    process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : "http://localhost:3000",
-}))
-
+//se eliminó cors
 
