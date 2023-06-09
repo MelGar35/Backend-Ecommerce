@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 
 
 export let Users;
+export let Sessions;
 export let Products;
 export let Carts;
 export let Ticket;
@@ -19,12 +20,13 @@ switch (config.PERSISTENCE) {
       .then(() => console.log("La Base de datos esta conectada"))
       .catch((err) => console.error(err))
 
-
-    const { default: usersMongo } = await import('./mongo/users.mongo.js')
+    const { default: sessionsMongo } = await import('./mongo/sessions.mongo.js') 
+    const { default: usersMongo } = await import('./mongo/sessions.mongo.js')
     const { default: productMongo } = await import('./mongo/products.mongo.js')
     const { default: cartMongo } = await import('./mongo/carts.mongo.js')
     const { default: ticketMongo } = await import('./mongo/ticket.mongo.js')
 
+    Sessions = sessionsMongo;
     Users = usersMongo;
     Products = productMongo;
     Carts = cartMongo;
@@ -39,7 +41,7 @@ switch (config.PERSISTENCE) {
     const { default: cartMemory } = await import('./memory/carts.memory.js')
 
 
-    console.log("Persistence en memoria")
+    console.log("Persistencia en memoria")
     Users = usersMemory;
     Products = productMemory;
     Carts = cartMemory;

@@ -21,7 +21,7 @@ class cartsValidator {
       const carts = await cartsServices.findById(cid)
       return carts
     } catch (error) {
-      return error
+      throw new Error('Carrito no encontrado')
     }
   }
 
@@ -45,13 +45,31 @@ class cartsValidator {
     if (!cid) throw new Error("Se ha extraviado el Id del Carrito")
     if (!enExistencia) throw new Error("Producto no encontrado en la Base de datos")
     if (user.role === 'premium' && enExistencia.owner === user.user) {
-    logger.debug(`Hemos entrado en la condicion necesaria`)
     throw new Error("Un usario premium no puede agregar al carrito sus propios productos")
   }
+    let cart = await this.getCartById(cid)
+
+    let foundInCart = (cart.products.find(el => (el.product._id).toString() === product.product))
+    let productIndex = (cart.products.findIndex(el => (el.product._id).toString() === product.product))
+    
     try {
-      await cartsServices.updateCart(cid, product)
+      if (foundInCart != undefined) {
+        logger.warning("Se esta intentando agregar mas productos de los que hay")
+        let productStock = cart.products[productIndex].product.stock
+        // Ubicamos la cantidad solicitada en el carrito, y la sumamos con la cantidad que tenemos aca
+        let totalAmount = product.quantity + cart.products[productIndex].quantity
+        let pidInCart = cart.products[productIndex]._id.toString()
+        // La cantida total no puede superar la cantidad de stock que tenemos en el producto, si la supera, va a ser directamente el total
+        if (totalAmount > productStock) totalAmount = productStock
+        // Una vez ubicamos su id, llamamos a la funcion para actualizar la cantidad
+        await cartsServices.updateQuantityToCart(cid, pidInCart, totalAmount)
+      } else {
+        await cartsServices.updateCart(cid, product)
+
+      }
+
     } catch (error) {
-      return error;
+      throw new Error(error)
     }
   }
 
@@ -60,7 +78,8 @@ class cartsValidator {
       if (!cid) throw new Error("Se ha extraviado el Id del carrito")
       if (!pid) throw new Error("Se ha extraviado el Id del producto")
       if (!quantity) throw new Error("Se ha extraviado la cantidad")
-      await cartsServices.updateQuantityToCart(cid,pid,quantity) } catch (error) {
+      await cartsServices.updateQuantityToCart(cid,pid,quantity) 
+    } catch (error) {
       return error;
     }
   }
@@ -87,7 +106,7 @@ class cartsValidator {
 
   async purchase(cid, user) {
 
-    const client = twilio(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN)
+  
     const cartInExistence = await cartsServices.getCartById(cid)
     if (!cartInExistence) throw new Error("Se ha extraviado el Id del carrito")
     if (!user) throw new Error("No se encuentra al usuario")
@@ -95,7 +114,7 @@ class cartsValidator {
 
     try {
 
-
+      const client = twilio(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN)
       const cartToModify = cartInExistence;
       let newListProducts = []
       let amount = 0;
@@ -143,7 +162,7 @@ class cartsValidator {
       return { ticket: ticket, unOrderedProducts: unOrderedProducts, message: "Los productos no agregados son aquellos que superan las cantidades de stock disponible" };
 
     } catch (error) {
-      return error
+      throw new error(error)
 
     }
   }

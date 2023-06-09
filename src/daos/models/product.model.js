@@ -8,7 +8,7 @@ const productSchema = new Schema({
   description: String,
   category: String,
   price: String,
-  thumbnailPath: String,
+  thumbnailName: String,
   code: {
     type: String,
     unique: true

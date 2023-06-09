@@ -1,6 +1,7 @@
 import sessionValidator from "../validators/session.validator.js"
 import jwt from "jsonwebtoken"
 import currentUserDto from "../daos/dto/currentUser.dto.js"
+import { UserService as sessionServices } from '../repositories/index.js'
 import config from "../config/config.js"
 import nodemailer from "nodemailer"
 
@@ -16,54 +17,96 @@ const transport = nodemailer.createTransport({
 class sessionsController {
 
   async getLoginPage(req, res) {
-    res.render('login')
+    try {
+      res.render('login')
+
+    } catch (error) {
+      req.logger.error(`Funcion getLoginPage en controlador: ${error.message}`)
+      res.status(500).json({ error: error.message })
+
+    }
   }
 
   async getCurrentProfile(req, res) {
-    res.render('current', {user : req.user})
+    try {
+      res.render('current', { user: req.user })
+    } catch (error) {
+      req.logger.error(`Funcion getCurrentProfile en controlador: ${error.message}`)
+      res.status(500).json({ error: error.message })
+    }
   }
 
   async getRegisterPage(req, res) {
-    res.render('register')
+    try {
+      res.render('register')
+
+    } catch (error) {
+      req.logger.error(`Funcion getRegisterPage en controlador: ${error.message}`)
+      res.status(500).json({ error: error.message })
+
+    }
   }
 
   async postToRegister(req, res) {
-    req.logger.info("Registro exitoso")
-    res.render('login', { message: "Te has registrado exitosamente" })
+    req.logger.debug("Registrando usuario")
+    try {
+      if (req.user.message === "Usuario ya existe") {
+        res.status(409).json({ message: "Usuaro ya existe" })
+      } else {
+        res.status(201).json({ message: "Usuario creado exitosamente" })
+      }
+    } catch (error) {
+      req.logger.error(`Funcion postToRegister en controlador: ${error.message}`)
+      res.status(500).json({ error: error.message })
+    }
   }
 
-  async failedRegister(req, res) {
-    req.logger.error("Ocurrio un error en el registro")
-    res.send({ status: 'failure', message: "Ha ocurrido un error de registro" })
+  async logout(req, res) {
+    req.logger.info("Session finalizada")
+    try {
+      res.clearCookie('coderCookieToken')
+      res.redirect("/api")
+
+    } catch (error) {
+      req.logger.error(`Funcion logout en controlador: ${error.message}`)
+      res.status(500).json({ error: error.message })
+    }
   }
 
   async postToLogin(req, res) {
     const { email, password } = req.body;
+    req.logger.debug(`Mail : ${email}`)
+    req.logger.debug(`Password: ${password}`)
 
-    const checkedAccount = await sessionValidator.checkAccount(email, password)
-    const userToSign = new currentUserDto(checkedAccount)
+    try {
+      const checkedAccount = await sessionValidator.checkAccount(email, password)
+      const userToSign = new currentUserDTO(checkedAccount)
 
-    if (checkedAccount === 'NoMailNorPassword') return res.send("Mail o password extraviados")
-    if (checkedAccount === 'NoUser') return res.send("Usuario no encontrado")
-    if (checkedAccount === 'IncorrectPassword') return res.send("Password Incorrecto")
-    if (checkedAccount) {
-      const token = jwt.sign({ user: userToSign.email, role: userToSign.role, phone: userToSign.phone }, "coderSecret", { expiresIn: "30m" }, { withCredentials: false });
-      res.cookie('coderCookieToken', token, { maxAge: 60 * 60 * 60, httpOnly: false, withCredentials: false });
-      req.logger.info("El Usuario inicio sesión")
-      res.redirect('/api/session/current')
+      if (checkedAccount === 'NoMailNorPassword') return res.status(404).json({ message: "No mail or password " })
+      if (checkedAccount === 'NoUser') return res.status(404).json({ message: "No User found" })
+      if (checkedAccount === 'IncorrectPassword') return res.status(404).json({ message: "Incorrect password" })
+
+      if (checkedAccount) {
+        await sessionServices.updateUser(checkedAccount._id, { last_connection: new Date() })
+        const token = jwt.sign({ user: userToSign.email, role: userToSign.role, phone: userToSign.phone, userID: checkedAccount._id, userName: checkedAccount.username }, config.cookiekey);
+        res.cookie('coderCookieToken', token, { maxAge: 60 * 60 * 60 * 60, httpOnly: false, withCredentials: false });
+        req.logger.info("User is logged in ")
+        res.redirect('/api')
+      }
+    } catch (error) {
+      req.logger.error(`Funcion postToLogin en controlador: ${error.message}`)
+      res.status(500).json({ error: error.message })
     }
   }
 
-  async getFailedRegisterPage(req, res) {
-    req.logger.error("Ha ocurrido un error en el registro")
-    res.send({ status: 'failure', message: 'Ha ocurrido un error en el registro' })
-
-  }
-
   async getRestorePage(req, res) {
-    req.logger.info("Reestablecer contraseña")
-    res.render('restore')
-
+    req.logger.info("Restaurar Password")
+    try {
+      res.render('restore')
+    } catch (error) {
+      req.logger.error(`Funcion getRestorePage en controlador: ${error.message}`)
+      res.status(500).json({ error: error.message })
+    }
   }
 
 
@@ -72,8 +115,8 @@ class sessionsController {
     const { email } = req.body;
     req.logger.debug(`Email enviado para restaurar contraseña: ${email}`)
 
+    try{
     const token = await sessionValidator.restore(email)
-
     if (token) {
       await transport.sendMail({
         from: 'Melisa <nicecup.ventas@gmail.com>',
@@ -94,7 +137,11 @@ class sessionsController {
     } else {
       res.render('restore', { message: "Usuario no encontrado" })
     }
-  }
+  } catch (error) {
+  req.logger.error(`Funcion restore en controlador: ${error.message}`)
+  res.status(500).json({ error: error.message })
+}
+}
 
   async getUpdateUserPage(req, res) {
 
@@ -145,28 +192,6 @@ class sessionsController {
       res.status(401).json({ error: error.message })
     }
   }
-
-  async changeRolePage(req, res) {
-    const users = await sessionValidator.getUsers()
-    req.logger.debug(`Usuarios: ${users}`)
-
-    res.render('changerole', { users })
-  }
-
-  async changeRole(req, res) {
-    const uid = req.params.uid
-    const { role } = req.body
-
-    try {
-      const users = await sessionValidator.getUsers()
-      await sessionValidator.changeRole(role, uid)
-      res.render('changerole', { users })
-    } catch (error) {
-      console.log(error.message)
-      res.status(400).json({ message: "Ha ocurrido un error inesperado" })
-    }
-  }
 }
-
 
 export default new sessionsController()

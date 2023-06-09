@@ -1,14 +1,14 @@
 import passport from 'passport';
 import jwt from 'passport-jwt';
-import local from 'passport-local'
 import usersDto from "../daos/dto/users.dto.js"
-import usersDao from '../daos/mongo/users.mongo.js'
+import usersDao from '../daos/mongo/sessions.mongo.js'
 import {hashPassword as createHash} from '../utils/crypted.js'
-import CustomError from '../utils/CustomError.js'
-import generateUserError from '../utils/generateUserError.js'
-import ErrorList from '../utils/ErrorList.js';
+import { Strategy as LocalStrategy } from "passport-local"
 
-const LocalStrategy = local.Strategy
+
+const JWTStrategy = jwt.Strategy
+const ExtractJWT = jwt.ExtractJwt
+
 const headersExtractor = (req) => {
   let token = null
   if (req && req.headers) {
@@ -25,13 +25,16 @@ const cookieExtractor = (req) => {
   return token
 }
 
-const JWTStrategy = jwt.Strategy
-const ExtractJWT = jwt.ExtractJwt
+// Configuración de Passport
+passport.use(new LocalStrategy(async (username, password, done) => {
+// Autenticación del usuario
+  if (username === "admin" && password === "admin") {
+    return done(null, { username, password });
+  }
+  return done(null, false);
+}));
 
-const initializePassport = () => {
-  passport.use(
-    "jwt",
-    new JWTStrategy({
+passport.use("jwt", new JWTStrategy({
         jwtFromRequest: cookieExtractor,
         secretOrKey: "coderSecret"
       },
@@ -41,11 +44,9 @@ const initializePassport = () => {
         } catch (error) {
           done(error);
         }
-      })
-  )
+      }))
 
-
-  passport.use('register', new LocalStrategy({
+passport.use('register', new LocalStrategy({
     passReqToCallback: true,
     usernameField: 'email'
   }, async (req, username, password, done) => {
@@ -55,41 +56,37 @@ const initializePassport = () => {
       email,
       age,
       phone,
-      role
     } = req.body;
+    const role = "user"
 
-
-    if (!first_name || !last_name || !email || !/^[0-9]*$/.test(age) || !age || !phone || !/\+[0-9]+/i.test(phone) || !role) {
-      CustomError.createError({
-        name: "Error al crear Usuario",
-        cause: generateUserError({
-          first_name,
-          last_name,
-          email,
-          age,
-          phone,
-          role
-        }),
-        message: "Error al tratar de Registrar Usuario",
-        code: ErrorList.INVALID_TYPE_ERROR
-      })
-    }
     try {
-      let user = await usersDao.getUserByEmail(username)
+      const user = await usersDao.getUserByEmail(email)
+      console.log(user)
+
       if (user) {
-        console.log('Usuario existente')
-        return done(null, false)
+        console.log('Usuario ya existe')
+        return done(null, { message: "Usuario ya existe" })
       }
 
+      if (first_name && last_name && email && age && phone) {
+      
       const createdUser = new usersDto(first_name, last_name, email, age, phone, role)
       createdUser.password = createHash(password)
 
-      let result = await usersDao.createUser(createdUser)
+      const result = await usersDao.createUser(createdUser)
       return done(null, result)
-    } catch (error) {
+    } 
+      } catch (error) {
       done(error)
     }
   }))
-}
 
-export default initializePassport
+  passport.serializeUser(function (user, done) {
+    done(null, user);
+  })
+  
+  passport.deserializeUser(function (user, done) {
+    done(null, user);
+  })
+
+export default passport
