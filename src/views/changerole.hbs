@@ -1,4 +1,6 @@
 <h1>Ingresa el mail del usuario al que quieres cambiar el rol </h1>
+<a href="/api/">Home</a>
+
 <table>
 	<thead>
 		<tr>
@@ -6,6 +8,7 @@
 			<td>Email</td>
 			<td>Rol</td>
 			<td>User Id</td>
+			<td>Accion</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -16,31 +19,16 @@
 			<td>{{this.role}}</td>
 			<td>{{this._id}}</td>
 
+		<td><button id="sendButton" data-id={{_id}} >Actualizar a Premium</button></td>
+      	<td><button id="deleteButton" data-id={{_id}} >Borrar Usuario</button></td>
+
 		</tr>
         {{/each}}
 	</tbody>
 </table>
 
 
-<br>
-<br>
-<br>
-<br>
-<br>
-
-<input id="uid" placeholder="Ingresa el UID del usuario">
-        <select class="form-select" name="role" id="role">
-      <option value="user"> User </option>
-      <option value="premium"> Premium </option>
-
-    </select>
-
-<button id="sendButton">Cambiar rol</button>
-
-<h3>
-  {{{message}}}
-
-</h3>
+<button id="deleteInactiveUsers">Eliminar usuarios inactivos </button>
 
 <script type="module" src="/changerole.js"> </script>
 

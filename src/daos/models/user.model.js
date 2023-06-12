@@ -10,7 +10,11 @@ const userSchema = new Schema({
   phone: String,
   role: { type: String, required: true, default: "user", enum: ["user","admin","premium"] },
   token: String,
-  tokenDate : Date
+  tokenDate: Date,
+  last_connection: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 export const userModel = model(userCollection, userSchema)

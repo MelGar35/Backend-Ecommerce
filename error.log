@@ -5,3 +5,8 @@ fatal: Este es un log a nivel fatal
 error: Este es un log a nivel error
 error: Ha ocurrido un error en el registro
 error: Ha ocurrido un error self signed certificate in certificate chain {"code":"ESOCKET","command":"CONN","stack":"Error: self signed certificate in certificate chain\n    at TLSSocket.onConnectSecure (node:_tls_wrap:1535:34)\n    at TLSSocket.emit (node:events:513:28)\n    at TLSSocket._finishInit (node:_tls_wrap:949:8)\n    at TLSWrap.ssl.onhandshakedone (node:_tls_wrap:730:12)"}
+error: Funcion postToLogin en controlador: currentUserDTO is not defined
+error: Funcion postToLogin en controlador: currentUserDTO is not defined
+error: Funcion postToLogin en controlador: currentUserDTO is not defined
+error: Funcion postToLogin en controlador: currentUserDTO is not defined
+error: Funcion postToLogin en controlador: currentUserDTO is not defined

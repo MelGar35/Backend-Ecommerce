@@ -1,5 +1,11 @@
 <h1>Productos en carrito</h1>
-<h2>Carrito con Id Numero: {{this.result._id}}</h2>
+<a href="/api/carts">
+    <label for="carts">Mira los carritos actuales</label>
+</a>
+<a href="/api/">Home</a>
+
+<h2>Carrito con Id N:</h2>
+<h2>{{this.result._id}}</h2>
 <table>
 	<thead>
 		<tr>
@@ -22,25 +28,19 @@
 			<td>{{this.product.price}}</td>
 			<td>{{this.quantity}}</td>
 			<td>{{this.product.stock}}</td>
+			<td id="_id">{{this._id}}</td>
+      		<td><button class="btn btn-primary" data-id={{_id}} >Eliminar</button></td>
 		</tr>
         {{/each}}
+</tbody>
+</table>
 
+	<button class="btn btn-primary"> Agregar producto</button>
+    <button>Comprar</button>
 
-
-{{#if result.products}}
-<form action="/api/carts/{{result._id}}/purchase" method="post">
-
-          <button>
-          Comprar!
-          </button>
-
-
-</form>
-
-{{/if}}
+<h3>Productos</h3>
 
    
-      
-	</tbody>
-</table>
+<script type="module" src="/cartbyid.js"></script> 
+	
 

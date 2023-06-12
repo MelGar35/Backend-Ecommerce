@@ -1,41 +1,41 @@
-
-<div class="p-2">
-<h2 class="m-1">Carritos</h2>
-<br>
-<h3 class="m-1">Inicia sesion en api/session/login para crear tu carrito</h3>
-<form action="/api/carts" method="post">
-<br>
-<button class="btn btn-primary m-1">
-    Crear Carrito
-</button>
-  
+<div class="title">
+  <h1>Carritos </h1>
+<form>
+    <label for="carts">Crear Carrito</label>
+          <button type="submit">Crear Carrito</button>
 </form>
+    
+  <a href="/api/products">
+    <label for="carts">Mira la lista de productos</label>
+  </a>
+
+   <a href="/api/">Home</a>
+
+  </div>
+
+  <tr>
+
+<table>
+	<thead>
+			<td>ID de Carrito </td>
+			<td>Accion</td>
+			<td>Accion</td>
+		</tr>
+	</thead>
+	<tbody>
+    {{#each result}}
+            <tr>
+			<td id="id">{{this._id}}</td>
+      <td><a href="/api/carts/{{this._id}}"></a>Ver mas</td>
 
 
-<ul class="people_list">
-  {{#each result}}
+      {{#if this.products}}
+      <td><button id="purchaseButton" data-id={{_id}}>Comprar</button></td>
+      {{/if}}
+		</tr>
+        {{/each}}
+	</tbody>
+</table>
 
-  <li>Carrito Numero: {{this._id}}</li>
-
-  </br>
-
-  <button class="btn btn-dark">
-    <a href="/api/carts/{{this._id}}" target="_blank">Ver detalle</a>
-  </button>
-
-  </br> </br>
-
-  {{#if this.products}}
-
-  <form action="/api/carts/{{this._id}}/purchase" method="post">
-    <button class="btn btn-primary m-1"> Comprar!</button>
-  </form>
-
-  {{/if}}
-
-  </br>
-  </br>
-
-  {{/each}}
-</ul>
-</div>
+<script type="module" src="/carts.js"></script>
+ 

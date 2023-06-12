@@ -1,3 +1,67 @@
-<div>
- <h1>Bienvenido a Shanti Commerce</h1>
-</div>
+<body>
+  <nav>
+    {{#if loggedin}}
+    <div>
+      <h4>Bienvenido: {{user}}</h4>
+      <div >
+        <a id="link" href="/api/session/logout">Terminar sesion</a>
+      </div>
+      
+    </div>
+      {{/if}}
+    <ul>
+      <!-- Si nos hemos loggeado tenemos acceso a las funcionalidades para ver productos, carts y usuarios  -->
+      {{#if loggedin}}
+      <li>
+        <a href="/api/products">
+          <span class="invisible">Products</span>
+        </a>
+      </li>
+      <li>
+        <a href="/api/carts">
+          <span class="invisible">Carts</span>
+        </a>
+      </li>
+      <li>
+        <a href="/api/docs">
+          <span class="invisible">Docs</span>
+        </a>
+      </li>
+            <li>
+        <a href="/api/users/documents">
+          <span class="invisible">Profile</span>
+        </a>
+      </li>
+
+      {{/if}}
+
+
+ {{#unless loggedBoolean}}
+      <li>
+        <a href="/api/session/login">
+         <span class="invisible">Login</span>
+        </a>
+      </li>
+      <li>
+        <a href="/api/session/register">
+          <span class="invisible">Register</span>
+        </a>
+      </li>
+ {{/unless }}
+
+            {{#if loggedin}}
+
+
+            {{#if isAdmin}}
+      <li>
+        <a href="/api/users/premium">
+          <span class="invisible">Users</span>
+        </a>
+      </li>
+      {{/if}}
+
+
+      {{/if}}
+    </ul>
+  </nav>
+</body>

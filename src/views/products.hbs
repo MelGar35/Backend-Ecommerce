@@ -1,65 +1,107 @@
-<a href="/api/carts">Lista de carritos disponibles</a>
+<div class="title">
+  <h1>Productos</h1>
 
-<h2>Agregá productos a la base de datos</h2>
+  <a href="/api/carts">
+    <label>Mira los carritos actuales</label>
+  </a>
 
-<form action="products" method="post" enctype="multipart/form-data"> 
-  <input type="text" name="title" placeholder="Nombre">
-  <input type="text" name="description" placeholder="Descripcion">
-  <input type="text" name="category" placeholder="Categoria">
-  <input type="text" name="price" placeholder="Precio">
-  <label for="file">Seleccioná una Imagen</label>
-  <input type="file" name="thumbnail" >
-  <input type="text" name="code" placeholder="codigo">
-  <input type="text" name="stock" placeholder="stock">
-  <button>Enviar</button>
+   <a href="/api/">Home</a>
+</div >
+
+<br>
+<br>
+<form>
+  <label >Buscar producto por nombre</label>
+  <input id="searchTitle" type="text"  >
+  <button type="submit">Buscar</button>
 </form>
-<br>
-<br>
+<div class="list">
+ <h3 id=""></h3> 
 <table>
 	<thead>
 		<tr>
-			<td>Titulo</td>
-			<td>Descripción</td>
-			<td>Categoría</td>
-			<td>Precio</td>
+			<td>Title</td>
+			<td>Description</td>
+			<td>Category</td>
+			<td>Price</td>
 			<td>Stock</td>
-			<td>Id del producto</td>
-      <td>Comprador</td>
+			<td>ID de producto</td>
+			<td>Owner</td>
 			<td>Accion</td>
 		</tr>
 	</thead>
-  <tbody>
-      {{#each products.docs}}
-    <tr>
+	<tbody>
+    {{#each products.docs}}
+            <tr>
 			<td>{{this.title}}</td>
 			<td>{{this.description}}</td>
 			<td>{{this.category}}</td>
-			<td>{{this.price}}</td>
-			<td id="id">{{this.stock}}</td>
-			<td>{{this._id}}</td>
-      <td>{{this.owner}}</td>
+			<td>${{this.price}}</td>
+			<td>{{this.stock}}</td>
+			<td id="_id">{{this._id}}</td>
+			<td>{{this.owner}}</td>
       <td><button id="deleteProduct" data-id={{_id}} >Eliminar</button></td>
+
 		</tr>
         {{/each}}
 	</tbody>
 </table>
 
- <div>
-    <a href="/products?page={{products.prevPage}}&&limit=">Prev</a>
-    <a href="/products?page={{products.nextPage}}">Next</a>
+
 </div>
 
+ <div class="pagination">
+        <a href="/api/products?page={{products.prevPage}}&&limit=">Prev</a>
+        <a href="/api/products?page={{products.nextPage}}">Next</a>
 <h5>
-  {{ products.page }} / {{ products.totalPages }}
-</h5>
+      {{ products.page }} / {{ products.totalPages }}
+    </h5>
+ </div>
+
+
+<div class="uploadProducts">
 
 <h3 id="message"></h3>
 
-<h3>Agregar producto a carrito </h3>
+  <button>Agregar producto</button>
 
-  <input id="cid" type="text" name="cid" placeholder="Ingresa el Id del carrito" >
-  <input id="pid" type="text" name="pid"  placeholder="Ingresa el Id del producto">
-  <input id="quantity" type="text" name="quantity"  placeholder="Ingresa la cantidad">
-  <button id="cartButton">Agregar al carrito</button>
-      
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="nuevoProducto" class="vertical-form">
+      <div class="form-group">
+        <label for="title">Nombre:</label>
+        <input type="text" name="title" placeholder="Nombre">
+      </div>
+      <div class="form-group">
+        <label for="description">Descripción:</label>
+        <input type="text" name="description" placeholder="Descripción">
+      </div>
+      <div class="form-group">
+        <label for="category">Categoría:</label>
+        <input type="text" name="category" placeholder="Categoría">
+      </div>
+      <div class="form-group">
+        <label for="price">Precio:</label>
+        <input type="text" name="price" placeholder="Precio">
+      </div>
+      <div class="form-group">
+        <label for="file">Elige una imagen:</label>
+        <input type="file" name="thumbnail">
+      </div>
+      <div class="form-group">
+        <label for="code">Código:</label>
+        <input type="text" name="code" placeholder="Código">
+      </div>
+      <div class="form-group">
+        <label for="stock">Stock:</label>
+        <input type="text" name="stock" placeholder="Stock">
+      </div>
+      <button>Enviar</button>
+    </form>
+  </div>
+</div>
+</div>
+
 <script type="module" src="/products.js"></script>

@@ -1,22 +1,99 @@
 
+const deleteButtons = document.querySelectorAll('#deleteButton');
 
-document.getElementById("sendButton").addEventListener('click', async (event) => {
-  event.preventDefault()
-  let uid = document.getElementById('uid').value
-  let data = {
-    role: document.getElementById('role').value,
-  }
-  console.log(data)
-  await fetch(`/api/session/changetopremium/${uid}`, {// 
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
+deleteButtons.forEach(button => {
+
+  button.addEventListener('click', async (event) => {
+    event.preventDefault()
+
+    let uid = event.target.dataset.id;
+
+    await fetch(`/api/users/${uid}`, {// 
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (response.ok) {
+          message.success({
+            title: "Usuario eliminado",
+          })
+          setTimeout(() => {
+            window.location.href = "/api/users/premium"
+          }, 400);
+        } else {
+          message.error({
+            title: "No se ha podido eliminar al usuario",
+          })
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
   })
-    .then(() => {
-      console.log("Peticion realizada")
-      location.reload()
+})
+
+
+const sendButtons = document.querySelectorAll('#sendButton');
+
+sendButtons.forEach(button => {
+
+  button.addEventListener('click', async (event) => {
+    event.preventDefault()
+
+    let uid = event.target.dataset.id;
+    let data = {
+      role: "premium"
+    }
+    console.log(uid)
+    console.log(data)
+    await fetch(`/api/users/premium/${uid}`, {// 
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => {
+        if (response.ok) {
+          message.success({
+            title: "Usuario actualizado!",
+            message: "Recargue la pagina para comprobar los cambios"
+          })
+          window.location.href = "/api/users/premium"
+        } else {
+         message.success({
+            title: "No se ha actualizado el usuario",
+            message: "El usuario no tiene los documentos necesarios"
+          })
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
+  })
+})
+
+
+document.getElementById("deleteInactiveUsers").addEventListener('click', async () => {
+  console.log("Eliminando usuarios inactivos")
+  await fetch(`/api/users`, {// 
+    method: 'DELETE',
+  })
+    .then(response => {
+      if (response.ok) {
+        message.success({
+          title: "Usuarios eliminados",
+        })
+        setTimeout(() => {
+          window.location.href = "/api/users/premium"
+
+        }, 1000);
+      } else {
+        message.error({
+          title: "Ha ocurrido un error",
+        })
+      }
     })
     .catch(error => {
       console.log(error)
@@ -24,5 +101,3 @@ document.getElementById("sendButton").addEventListener('click', async (event) =>
 
 
 })
-
-

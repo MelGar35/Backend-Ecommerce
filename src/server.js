@@ -1,5 +1,6 @@
 import express from "express"
 import handlebars from "express-handlebars"
+import Handlebars from 'handlebars'
 import __dirname from "./dirname.js"
 import routes from "../src/routes/index.routes.js"
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access"
@@ -20,13 +21,8 @@ import MongoStore from "connect-mongo"
 //Configuracion del servidor
 const app = express()
 
-//Middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-//Passport
-app.use(passport.initialize())
-app.use(passport.session())
 
 //Swagger
 const specs = swaggerJSDoc(swaggerOptions)
@@ -36,19 +32,17 @@ app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(specs))
 app.engine('hbs', handlebars.engine({
     extname: '.hbs',
     defaultLayout: 'main.hbs',
-    handlebars: allowInsecurePrototypeAccess(handlebars)
+    handlebars: allowInsecurePrototypeAccess(Handlebars)
   })
 )
 app.set('view engine', 'hbs')
 app.set('views', `${__dirname}/views`)
 
-
+//middlewares
 app.use(express.static(path.join(__dirname, '/src/public')))
 app.use(cookieParser())
 app.use(errorHandler)
 app.use(addLogger)
-
-
 
 //Sesión 
 app.use( session(
@@ -77,3 +71,6 @@ app.use('/api', routes)
 //Inicio del servidor
 app.listen(config.PORT, () => console.log(`Escuchando en el puerto ${config.PORT}`))
 
+//Passport
+app.use(passport.initialize())
+app.use(passport.session())
