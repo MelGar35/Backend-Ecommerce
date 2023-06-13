@@ -18,7 +18,7 @@ const transport = nodemailer.createTransport({
       req.logger.info("Documents page")
       let user = req.user
       try {
-        res.render('documents', { title: "Users", username: user.user, user: user.userID, style: `<link  href="/styles/documents.css" rel="stylesheet">` })
+        res.render('documents', { title: "Users", username: user.user, user: user.userID })
       } catch (error) {
         req.logger.error(`Funcion getDocumentsPage en controlador: ${error.message}`)
         res.status(500).json({ message: `Error ${error}` })
@@ -31,7 +31,7 @@ const transport = nodemailer.createTransport({
       const users = await usersValidator.getUsers()
       try {
         if (json) res.status(200).json(users)
-        else res.render('changerole', { users, style: `<link href="/styles/users.css" rel="stylesheet">` })
+        else res.render('changerole', { users })
       } catch (error) {
         req.logger.error(`Funcion changeRolePage en controlador: ${error.message}`)
         res.status(500).json({ error: `Error: ${error.message}` })
@@ -51,15 +51,7 @@ const transport = nodemailer.createTransport({
       } catch (error) {
         req.logger.error(`Funcion changeRole en controlador: ${error.message}`)
         res.status(400).json({ message: "An error as occurred" })
-  
-  
-  
-  
       }
-  
-  
-  
-  
     }
   
     async uploadDocs(req, res) {
@@ -83,7 +75,7 @@ const transport = nodemailer.createTransport({
   
     async deleteInactiveUsers(req, res) {
   
-      req.logger.debug("CON: Eliminando usuarios inactivos")
+      req.logger.debug("Eliminando usuarios inactivos")
       try {
   
         const usuariosAEliminar = await usersValidator.findInactiveUsers()
@@ -124,7 +116,7 @@ const transport = nodemailer.createTransport({
     async deleteUser(req, res) {
   
       const userId = req.params.uid
-      req.logger.debug(`CON: ID de usuario a eliminar: ${userId}`)
+      req.logger.debug(`ID de usuario a eliminar: ${userId}`)
   
       try {
         await usersValidator.deleteUser(userId)

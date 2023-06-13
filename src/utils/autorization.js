@@ -15,7 +15,7 @@ const authorization = (role) => {
   
      if(permiso === false) {
       req.logger.warning("No has iniciado sesion")
-      res.status(403).json({ message: 'No tienes permisos para realizar esta tarea'})
+      return res.status(403).json({ message: `No tienes permisos para realizar esta tarea, debes tener el rol de: ${role}`})
       }
     
       next()

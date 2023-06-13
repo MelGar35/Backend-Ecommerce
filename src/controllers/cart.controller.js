@@ -12,81 +12,90 @@ const transport = nodemailer.createTransport({
   },
 })
 
-class CartController {
+class cartController {
   async getCarts(req, res) {
     const limit = parseInt(req.query.limit)
+    const json = (req.query.json)
 
     try {
       const result = await cartValidator.getCarts(limit)
       req.logger.debug(result)
-      res.render('carts', {result})
+      if (json) res.status(200).json(result)
+      else res.render('carts', {result})
     } catch (error) {
+      req.logger.error(`Funcion getCarts en controlador: ${error.message}`)
       res.json(error)
     }
   }
 
   async getCartById(req, res) {
-    const { cid } = req.params;
-
+    let json = req.query.json
     try {
-      const carts = await cartValidator.getCartById(cid);
-      req.logger.debug(`Resultado de getCartbyId ${carts}`);
-      res.render("cartById", { carts });
+
+      const result = await cartValidator.getCartById(req.params.cid)
+      req.logger.debug(`Resultado de getCartbyId en controler ${result}`)
+      if (json) res.status(200).json(result)
+      else res.render('cartById', { result, title: "Search Cart"})
     } catch (error) {
-      res.json(error);
+      req.logger.error(`Funcion getCartById en controlador: ${error.message}`)
+      res.status(404).json(error.message)
     }
   }
-
 
   async createCart(req, res) {
+    console.log(req.user.user)
     try {
       await cartValidator.createCart()
-      await sendCartCreationEmail(req.user.user);
-      req.logger.info("Mail enviado")
-    } catch (error) {
-      req.logger.error("Ha ocurrido un error", error)
-      res.status(400).json({
-        info: `Ha ocurrido un error: ${error}`
+      await transport.sendMail({
+        from: 'Melisa <nicecup.ventas@gmail.com>',
+        to: req.user.user,
+        subject: "Nuevo Carrito Creado",
+        html: `
+         <div>
+          <h1> Has creado tu carrito exitosamente! link</h1>
+        </div> `
+        ,attachments: []
       })
+      req.logger.info("Mail enviado")
+      res.status(201).json({ info: 'Carrito Creado' })
+    } catch (error) {
+      req.logger.error(`Funcion createCart en controlador: ${error.message}`)
+      res.status(400).json({ info: `Algo salio mal: ${error}` })
     }
   }
+
 
   async updateCart(req, res) {
     const cid = (req.params.cid)
     const {quantity,pid} = req.body;
     const product = {product: pid, quantity: quantity}
-
+    let responseSent = false
     try {
       const user = req.user
       await cartValidator.updateCart(cid, product, user)
       req.logger.info("El producto ha sido actualizado")
-      const updatedCart = await cartValidator.getCartById(cid)
-      res.send({
-        status: 200,
-        payload: updatedCart,
-      })
+      res.status(200).json({ message: "Producto agregado al carrito", payload: await cartValidator.getCartById(cid) })
+      responseSent = true
     } catch (error) {
-      res.status(400).json({
-        error: error.message
-      })
+      if (responseSent = false) {
+        req.logger.error(`Funcion updateCart en controlador: ${error.message}`)
+        res.status(400).json({ error: error.message })
+        responseSent = true
+      }
     }
   }
 
   async updateQuantityFromCart(req, res) {
+    req.logger.debug("Actualizando cantidad de producto")
     const {cid, pid} = req.params
     const {quantity} = req.body
-
     try {
       await cartValidator.updateQuantityFromCart(cid, pid, quantity)
       req.logger.info("La cantidad del producto fue actualizada")
-      const updatedCart = await cartValidator.getCartById(cid);
-      res.json({
-        message: "Cantidad Actualizada",
-        payload: updatedCart,
-      })
+      res.json({ message: "Quantity Updated", payload: await cartValidator.getCartById(cid) })
     } catch (error) {
       console.log(error)
-      req.logger.error("No se ha actualizado el producto en el carrito")
+      req.logger.error(`Funcion updateQuantityFromCart en controlador: ${error.message}`)
       res.json({ error: error })
     }
   }
@@ -96,15 +105,10 @@ class CartController {
     try {
       await cartValidator.deleteProductFromCart(cid, pid)
       req.logger.info("Producto eliminado del carrito")
-      const updatedCart = await cartValidator.getCartById(cid)
-      res.json({
-        message: `El producto: ${pid} fue eliminado del carrito ${cid}`,
-        payload:  updatedCart,
-      })
+      res.json({ message: `PID: ${pid} has been deleted from cart ${cid}`, payload: await cartValidator.getCartById(cid) })
     } catch (error) {
-      res.json({
-        error: error.message
-      })
+      req.logger.error(`Funcion deleteProductFromCart en controlador: ${error.message}`)
+      res.json({ error: error.message })
     }
   }
 
@@ -117,6 +121,7 @@ class CartController {
         status: 200,
         message: "Carrito Eliminado"})
     } catch (error) {
+      req.logger.error(`Funcion emptyCart en controlador: ${error.message}`)
       res.json({
         error
       })
@@ -129,29 +134,12 @@ class CartController {
     try {
       const result = await cartValidator.purchase(cid, user)
       req.logger.info("El carrito ha sido comprado")
-      res.json({
-        message: "Se ha generado el ticket Nº:",
-        result,
-      })
-    } catch (error) {
-      res.json({
-        error: error.message
-      })
+      res.json({message: "Se ha generado el ticket Nº:",result,})
+    } catch (Error) {
+      req.logger.error(`Funcion purchase en controlador: ${Error.message}`)
+      res.json({error: Error.message})
     }
-  }
-  
-  async sendCartCreationEmail(user) {
-    await transport.sendMail({
-      from: 'Melisa <nicecup.ventas@gmail.com>',
-      to: user,
-      subject: 'Nuevo carrito creado',
-      html: `
-        <div>
-          <h1> Has creado un carrito </h1>
-        </div> `,
-      attachments: []
-    });
   }
 }
 
-export default new CartController()
+export default new cartController()

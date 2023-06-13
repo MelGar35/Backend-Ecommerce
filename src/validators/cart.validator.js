@@ -8,7 +8,7 @@ class cartsValidator {
 
   async getCarts(limit) {
     try {
-      const carts = await cartsServices.find(limit)
+      const carts = await cartsServices.getCarts(limit)
       return carts
     } catch (error) {
       return error;
@@ -18,7 +18,7 @@ class cartsValidator {
 
   async getCartById(cid) {
     try {
-      const carts = await cartsServices.findById(cid)
+      const carts = await cartsServices.getCartById(cid)
       return carts
     } catch (error) {
       throw new Error('Carrito no encontrado')
@@ -56,7 +56,7 @@ class cartsValidator {
       if (foundInCart != undefined) {
         logger.warning("Se esta intentando agregar mas productos de los que hay")
         let productStock = cart.products[productIndex].product.stock
-        // Ubicamos la cantidad solicitada en el carrito, y la sumamos con la cantidad que tenemos aca
+        // Ubicamos la cantidad solicitada en el carrito, y la sumamos con la cantidad
         let totalAmount = product.quantity + cart.products[productIndex].quantity
         let pidInCart = cart.products[productIndex]._id.toString()
         // La cantida total no puede superar la cantidad de stock que tenemos en el producto, si la supera, va a ser directamente el total
@@ -67,7 +67,6 @@ class cartsValidator {
         await cartsServices.updateCart(cid, product)
 
       }
-
     } catch (error) {
       throw new Error(error)
     }
@@ -153,19 +152,23 @@ class cartsValidator {
 
 
       let unOrderedProducts = await cartsServices.getCartById(cid)
-
+      try{
       client.messages.create({
-        body: `Gracias, ${nombre}, tu solicitud de producto ${producto}, ha sido aprobada`,
+        body: `Gracias por tu Compra`,
         from: config.TWILIO_PHONE_NUMBER,
-        to: "+541153255380"
+        to: user.phone //poner +54 o va salir error
       })
-      return { ticket: ticket, unOrderedProducts: unOrderedProducts, message: "Los productos no agregados son aquellos que superan las cantidades de stock disponible" };
-
-    } catch (error) {
-      throw new error(error)
-
-    }
-  }
+      .catch(e => {
+        return e
+      })
+    return { ticket: ticket, unOrderedProducts: unOrderedProducts, message: "Los productos no agregados son aquellos que superan las cantidades el stock disponible" };
+      } catch (error) {
+    throw new Error(error)
+      }
+      } catch (error) {
+    throw new error(error)
+}
+}
 }
 
 export default new cartsValidator()

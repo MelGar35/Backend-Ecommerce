@@ -1,20 +1,29 @@
+securitySchemes: 
+ cookieAuth: 
+   type: apiKey
+   in: cookie
+   name: coderCookieToken
 paths:
-  /api/products:
+  /api/products/:
     get:
-  sumary: "Get all products"
-  tags: 
-  - Products
-  responses:
-    "200":
-      description: "Products found"
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-            $ref: "#/components/schemas/products"
-    "500":
-      description: "Internal server error"
+      summary: 'Get all products'
+      security:
+         - cookieAuth: []
+      tags:
+        - Products
+      responses: 
+        "200":
+          description: "Products found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/products"
+        "500":
+          description: "Internal server error"
+        "401":
+          description: "Sin token de autorizacion, debes loguearte primero"
     post:
       summary: "Create a new product"
       tags:
@@ -31,13 +40,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/product"
+                $ref: "#/components/schemas/products"
         "500":
           description: "Internal server error"
         "401":
           description: "Not authorized"
         "400":
           description: "Ha ocurrido un error, verifique que el codigo de producto sea distinto a los demas"
+  /api/products?json=true:
+    get:
+      summary: 'Get all products in JSON format'
+      security:
+         - cookieAuth: []
+      tags:
+        - Products
+      responses: 
+        "200":
+          description: "Products found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/products"
+        "500":
+          description: "Internal server error"
+        "401":
+          description: "Sin token de autorizacion, debes loguearte primero"
   /api/products/{pid}:
     get:
       summary: 'Get product by ID'
@@ -47,7 +76,7 @@ paths:
         - name: pid
           in: path
           required: true
-          description: "Product Id"
+          description: "Product ID"
           schema:
             type: string
       responses:
@@ -58,7 +87,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/product"
+                  $ref: "#/components/schemas/products"
         "500":
           description: "Internal server error"
     put:
@@ -119,14 +148,38 @@ paths:
           description: "Bad request"
         "401":
           description: "Unauthorized"
+  /api/products/{pid}?json=true:
+    get:
+      summary: 'Get product by ID'
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: "Product ID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Product found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/products"
+        "500":
+          description: "Internal server error"
+
 components:
   schemas:
+    type: object
     products:
-      type: object
       properties:
         _id:
           type: ObjectId
-          description: "Product Id"
+          description: "Product ID"
         title:
           type: string
           description: "Product Name"
@@ -164,50 +217,7 @@ components:
         status: true
         stock: 15
         owner: "melisagarciadeveloper@gmail.com" 
-        image: "https://mazogatitos.png"
-    product:
-      type: object
-      properties:
-        _id:
-          type: ObjectId
-          description: "Product ID"
-        title:
-          type: string
-          description: "Product Name"
-        description:
-          type: string
-          description: "Product description"
-        category:
-          type: string
-          description: "Product category"
-        price:
-          type: integer
-          description: "Product price"
-        code:
-          type: string
-          description: "Product code"
-        status:
-          type: boolean
-          description: "Product status"
-        stock: 
-          type: integer
-          description: "Product Stock"
-        image:  
-          type: string
-          description: "Product image"
-        owner: 
-          type: string
-          description: "Product Owner"
-      example:
-        _id: 4d58f59f9g9t99e9
-        title: "Un curso de Milagros"
-        description: "Libro 500 paginas" 
-        category: "Libros"
-        price: 9800
-        code: "A8"
-        status: true
-        stock: 5
-        owner: "melisagarciadeveloper@gmail.com" 
+        image: "https://mazogatitos.png" 
   requestBodies:
     createProduct:
       properties:
@@ -236,13 +246,13 @@ components:
           type: string
           format: binary
       example:
-        title: "sahumo Akasha"
-        description: "de Romero y Lavanda"
-        category: "Sahumos"
-        price: 500
-        code: "A85"
+        title: "Un curso de Milagros"
+        description: "Libro 500 paginas" 
+        category: "Libros"
+        price: 9800
+        code: "A8"
         status: true
-        stock: 25
+        stock: 5
     updateProduct: 
       properties:
         title:

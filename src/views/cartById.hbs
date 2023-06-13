@@ -1,12 +1,13 @@
+<div>
 <h1>Productos en carrito</h1>
 <a href="/api/carts">
     <label for="carts">Mira los carritos actuales</label>
 </a>
 <a href="/api/">Home</a>
-
+</div>
 <h2>Carrito con Id N:</h2>
-<h2>{{this.result._id}}</h2>
-<table>
+<h2 id="cid">{{this.result._id}}</h2>
+<table id="productTable">
 	<thead>
 		<tr>
 			<td>Titulo</td>
@@ -29,16 +30,22 @@
 			<td>{{this.quantity}}</td>
 			<td>{{this.product.stock}}</td>
 			<td id="_id">{{this._id}}</td>
-      		<td><button class="btn btn-primary" data-id={{_id}} >Eliminar</button></td>
+      		<td><button id="deleteProduct" class="btn btn-primary" data-id={{_id}} >Eliminar</button></td>
 		</tr>
         {{/each}}
 </tbody>
 </table>
 
-	<button class="btn btn-primary"> Agregar producto</button>
-    <button>Comprar</button>
+	<button id="openModalBtn" class="btn btn-primary"> Agregar producto</button>
+    <button id="purchaseButton">Comprar</button>
 
-<h3>Productos</h3>
+<div>
+  <div>
+    <span>&times;</span>
+    <h3>Productos</h3>
+    <ul id="product-list"></ul>
+  </div>
+</div>
 
    
 <script type="module" src="/cartbyid.js"></script> 

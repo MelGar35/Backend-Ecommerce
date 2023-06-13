@@ -6,7 +6,7 @@ const roleValidation = () => {
     const user = await UserService.getUserById(req.params.uid) // Traemos al usuario y su informacion
 
     if (!user) {
-      return res.status(401).json({ message: 'User not found' })
+      return res.status(401).json({ message: 'Usuario no encontrado' })
     }
     // Verificamos que existan los documentos necesarios
     const identification = user.documents.find(el => el.name === "identification")

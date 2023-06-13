@@ -9,22 +9,19 @@ class usersValidator {
 
 
   async changeRole(role, uid) {
-    if (!role) throw new Error("Missing role")
-    if (!uid) throw new Error("Missing UID")
-    if (!await UserService.getUserById(uid)) throw new Error("User not found")
+    if (!role) throw new Error("Rol extraviado")
+    if (!uid) throw new Error("Id del usuario extraviado")
+    if (!await UserService.getUserById(uid)) throw new Error("Usuario no encontrado")
 
     try {
       await UserService.updateUser(uid, { role: role })
     } catch (error) {
       return error
     }
-
   }
 
-
   async deleteUser(uid) {
-    console.log(`VAL: Eliminando usuario con id ${uid}`)
-
+    console.log(`Eliminando usuario con id ${uid}`)
 
     const usuariosExcluidos = ['640dfe483d9a85c2cbdc44d6', '6429686e7ea1c5f5b46d804b', '644709cf130471ec9f3a268c']; // Usuarios son admin, premium y user
 
@@ -83,11 +80,6 @@ class usersValidator {
       console.log(error)
       throw new Error(error)
     }
-
-
-
-
-
   }
 }
 

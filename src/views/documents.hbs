@@ -1,0 +1,66 @@
+<div class="title">
+  <h1>Perfil</h1>
+   <a href="/api/">
+    Home
+  </a>
+</div >
+
+
+<div class="forms">
+  
+<div id="login-form-wrap">
+  <p id="UID" >{{user}}</p>
+  <p id="username" style="">Hola, has ingresado con el siguiente mail : {{username}}</p>
+
+  <h2>Sube tu imagen de perfil</h2>
+<div class="file-upload-wrapper" data-text="Selecciona tu imagen">
+<form  id="profilePicForm">
+  <input  id="profilePic" type="file" name="profilePic"  accept=".jpg">
+  <button type="submitProfilePic">Enviar</button>
+</form>
+  
+
+</div>
+
+<h2>Sube imagenes de tus productos</h2>
+<div class="file-upload-wrapper" data-text="Selecciona tu producto">
+<form id="productImageForm">
+  <input id="productImages" type="file" name="productImage" multiple accept=".jpg">
+  <button type="submitProductPictures">Enviar</button> </form>
+
+
+</div>
+<h2>Sube tus documentos</h2>
+
+<h4>Sube tu identificacion</h4>
+
+<div class="file-upload-wrapper" data-text="Carga tu archivo de identificacion">
+  
+<form id="idForm">
+  <input type="file" id="documents" name="identification" multiple accept=".pdf">
+  <button type="submit">Enviar</button>
+</form>
+
+</div>
+<h4>Sube tu comprobante de domicilio</h4>
+<div class="file-upload-wrapper" data-text="Carga tu archivo de domicilio">
+  
+<form id="locationForm">
+  <input type="file" id="documents" name="location"  accept=".pdf">
+  <button type="submit">Enviar</button>
+</form>
+
+</div>
+
+<h4>Sube tu comprobante de estado de cuenta</h4>
+<div class="file-upload-wrapper" data-text="Carga tu estado de cuenta">
+<form id="statusForm">
+  <input type="file" id="documents" name="accountStatus"  accept=".pdf">
+  <button type="submit">Enviar</button>
+</form>
+  
+</div>
+</div>
+
+<script type="module" src="/documents.js"> </script>
+

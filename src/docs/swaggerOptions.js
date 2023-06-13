@@ -8,4 +8,18 @@ export const swaggerOptions = {
       },
     },
     apis: [`src/docs/**/*.yaml`],
-  };
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT'
+        }
+      }
+    },
+    security: [{
+    bearerAuth: [],
+    ApiKeyAuth: []
+    }]
+  
+  }

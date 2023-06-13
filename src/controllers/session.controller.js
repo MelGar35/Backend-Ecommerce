@@ -1,6 +1,6 @@
 import sessionValidator from "../validators/session.validator.js"
 import jwt from "jsonwebtoken"
-import currentUserDto from "../daos/dto/currentUser.dto.js"
+import currentUserDTO from "../daos/dto/currentUser.dto.js"
 import { UserService as sessionServices } from '../repositories/index.js'
 import config from "../config/config.js"
 import nodemailer from "nodemailer"
@@ -51,7 +51,7 @@ class sessionsController {
     req.logger.debug("Registrando usuario")
     try {
       if (req.user.message === "Usuario ya existe") {
-        res.status(409).json({ message: "Usuaro ya existe" })
+        res.status(409).json({ message: "Usuario ya existe" })
       } else {
         res.status(201).json({ message: "Usuario creado exitosamente" })
       }
@@ -165,12 +165,12 @@ class sessionsController {
     } else if (response) {
       res.render('restore', {
         update: true,
-        token: response[0].token,
+        token: response.token,
         message: ""
       })
     }
     else {
-      res.render('restore', { message: "No auth token" })
+      res.render('restore', { message: "Debes estar logueado en esta cuenta para realizar cambios" })
     }
   }
 
@@ -188,7 +188,7 @@ class sessionsController {
 
     } catch (error) {
       req.logger.error("Contraseña Repetida")
-      if (error === "No Token found") res.status(404).json({ error: error.message })
+      if (error === "No se encuentra el token") res.status(404).json({ error: error.message })
       res.status(401).json({ error: error.message })
     }
   }

@@ -1,5 +1,5 @@
 paths:
-  /api/carts/:
+  /api/carts:
     get:
       summary: 'Get all carts'
       tags:
@@ -26,6 +26,22 @@ paths:
           description: "Internal server error"
         "401":
           description: "Not authorized"
+  /api/carts=json:
+    get:
+      summary: 'Get all carts in JSON format'
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: "Carts found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/carts"
+        "500":
+          description: "Internal server error"
   /api/carts/{cid}:
     get:
       summary: 'Get cart by ID'
@@ -81,6 +97,29 @@ paths:
           description: "Bad request"
         "401":
           description: "Unauthorized"
+  /api/carts/{cid}?json=true:
+    get:
+      summary: 'Get cart by ID in JSON format'
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: "Cart ID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Cart found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/carts"
+        "500":
+          description: "Internal server error"
   /api/carts/{cid}/products/{pid}:
     delete:
       summary: 'Delete a product from cart'
