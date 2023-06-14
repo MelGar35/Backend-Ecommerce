@@ -23,7 +23,7 @@ class productDao {
     try {
       return await productModel.create(product)
     } catch (error) {
-      return error.message
+      throw new Error(error.message)
     }
   }
 

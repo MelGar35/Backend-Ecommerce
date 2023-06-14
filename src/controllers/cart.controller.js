@@ -49,7 +49,7 @@ class cartController {
       await transport.sendMail({
         from: 'Melisa <nicecup.ventas@gmail.com>',
         to: req.user.user,
-        subject: "Nuevo Carrito Creado",
+        subject: "Nuevo Carrito",
         html: `
          <div>
           <h1> Has creado tu carrito exitosamente! link</h1>
@@ -105,7 +105,7 @@ class cartController {
     try {
       await cartValidator.deleteProductFromCart(cid, pid)
       req.logger.info("Producto eliminado del carrito")
-      res.json({ message: `PID: ${pid} has been deleted from cart ${cid}`, payload: await cartValidator.getCartById(cid) })
+      res.json({ message: `${pid} ha sido eliminado del carrito ${cid}`, payload: await cartValidator.getCartById(cid) })
     } catch (error) {
       req.logger.error(`Funcion deleteProductFromCart en controlador: ${error.message}`)
       res.json({ error: error.message })
@@ -134,10 +134,10 @@ class cartController {
     try {
       const result = await cartValidator.purchase(cid, user)
       req.logger.info("El carrito ha sido comprado")
-      res.json({message: "Se ha generado el ticket Nº:",result,})
-    } catch (Error) {
-      req.logger.error(`Funcion purchase en controlador: ${Error.message}`)
-      res.json({error: Error.message})
+      res.json({message: "Se ha generado el ticket Nº:", result})
+    } catch (error) {
+      req.logger.error(`Funcion purchase en controlador: ${error.message}`)
+      res.json({error: error.message})
     }
   }
 }

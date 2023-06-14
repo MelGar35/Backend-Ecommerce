@@ -56,7 +56,7 @@ class cartsValidator {
       if (foundInCart != undefined) {
         logger.warning("Se esta intentando agregar mas productos de los que hay")
         let productStock = cart.products[productIndex].product.stock
-        // Ubicamos la cantidad solicitada en el carrito, y la sumamos con la cantidad
+        // Ubicamos la cantidad solicitada en el carrito, y la sumamos con esta cantidad
         let totalAmount = product.quantity + cart.products[productIndex].quantity
         let pidInCart = cart.products[productIndex]._id.toString()
         // La cantida total no puede superar la cantidad de stock que tenemos en el producto, si la supera, va a ser directamente el total
@@ -95,8 +95,8 @@ class cartsValidator {
 
 
   async emptyCart(cid) {
+    if (!cid) throw new Error("Se ha extraviado el Id del carrito")
     try {
-      if (!cid) throw new Error("Se ha extraviado el Id del carrito")
       await cartsServices.emptyCart(cid)
     } catch (error) {
       return error;
@@ -128,6 +128,7 @@ class cartsValidator {
           amount += product.quantity * product.product.price
           await cartsServices.deleteProductFromCart(cid, (product._id).toHexString())
           await ProductService.updateProduct(productToUpdate, { stock: 0 }) 
+
         } else if (product.quantity <= product.product.stock) {
 
           let newProductQuantity = product.product.stock - product.quantity 
@@ -161,7 +162,7 @@ class cartsValidator {
       .catch(e => {
         return e
       })
-    return { ticket: ticket, unOrderedProducts: unOrderedProducts, message: "Los productos no agregados son aquellos que superan las cantidades el stock disponible" };
+    return { ticket: ticket, unOrderedProducts: unOrderedProducts, message: "Los productos no agregados no se encuentran en stock" };
       } catch (error) {
     throw new Error(error)
       }

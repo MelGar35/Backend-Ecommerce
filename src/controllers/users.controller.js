@@ -7,15 +7,14 @@ const transport = nodemailer.createTransport({
     port: 587,
     auth: {
       user: config.NODEMAILER_ACCOUNT,
-      pass: config.NODEMAILER_PASS,
+      pass: config.NODEMAILER_PASS
     }
   })
 
-  class usersController {
+class usersController {
 
-
-    async getDocumentsPage(req, res) {
-      req.logger.info("Documents page")
+  async getDocumentsPage(req, res) {
+      req.logger.info("Documents")
       let user = req.user
       try {
         res.render('documents', { title: "Users", username: user.user, user: user.userID })
@@ -26,7 +25,7 @@ const transport = nodemailer.createTransport({
       }
     }
   
-    async changeRolePage(req, res) {
+  async changeRolePage(req, res) {
       let json = req.query.json
       const users = await usersValidator.getUsers()
       try {
@@ -35,12 +34,10 @@ const transport = nodemailer.createTransport({
       } catch (error) {
         req.logger.error(`Funcion changeRolePage en controlador: ${error.message}`)
         res.status(500).json({ error: `Error: ${error.message}` })
-  
       }
-  
     }
   
-    async changeRole(req, res) {
+  async changeRole(req, res) {
       const uid = req.params.uid
       const { role } = req.body
   
@@ -54,26 +51,22 @@ const transport = nodemailer.createTransport({
       }
     }
   
-    async uploadDocs(req, res) {
+  async uploadDocs(req, res) {
       req.logger.debug("Uploading documents... ")
-  
   
       const uid = req.params.uid
       const data = req.files
-  
   
       try {
         const response = await usersValidator.updateUserDocuments(uid, data)
         res.render('documents', { message: "Perfil actualizado" })
       } catch (error) {
         req.logger.error(`Funcion uploadDocs en controlador: ${error.message}`)
-  
-        res.json({ error: error.message })
-  
+        res.json({ error: error.message }) 
       }
     }
   
-    async deleteInactiveUsers(req, res) {
+  async deleteInactiveUsers(req, res) {
   
       req.logger.debug("Eliminando usuarios inactivos")
       try {
@@ -88,20 +81,20 @@ const transport = nodemailer.createTransport({
           to: mails,
           subject: 'Su cuenta ha sido eliminada',
           html: `
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Cuenta eliminada por inactividad</title>
-  </head>
-  <body>
-    <div>
-      <h1>Cuenta eliminada por inactividad</h1>
-      <p>Estimado/a Usuario/a,</p>
-      <p>Tu cuenta ha sido eliminada debido a la inactividad prolongada. Lamentamos informarte que ya no podrás acceder a nuestros servicios.</p>
-    </div>
-  </body>
-  </html>
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset="UTF-8">
+        <title>Cuenta eliminada por inactividad</title>
+        </head>
+        <body>
+        <div>
+           <h1>Cuenta eliminada por inactividad</h1>
+           <p>Estimado/a Usuario/a,</p>
+           <p>Tu cuenta ha sido eliminada debido a la inactividad prolongada. Para poder acceder debes registrarte nuevamente.</p>
+        </div>
+        </body>
+        </html>
         `, attachments: []
         })
 
@@ -113,7 +106,7 @@ const transport = nodemailer.createTransport({
       }
     }
   
-    async deleteUser(req, res) {
+  async deleteUser(req, res) {
   
       const userId = req.params.uid
       req.logger.debug(`ID de usuario a eliminar: ${userId}`)
@@ -130,8 +123,7 @@ const transport = nodemailer.createTransport({
     }
   }
   
-  
-  export default new usersController()
+export default new usersController()
   
   
   

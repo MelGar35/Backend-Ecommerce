@@ -5,11 +5,10 @@ import config from "../config/config.js"
 const router = Router()
 
 router.get('/', (req, res) => {
-  //Verificamos que hayamos iniciado sesion para ver las otras funcionalidades, DE TODAS MANERA SE VALIDA EL JWT, NO PUEDE ENTRAR CUALQUIERA
-  let verification = req.cookies.coderCokieToken ? true : false // Verificacion de que hemos ingresado 
+  let verification = req.cookies.coderCookieToken ? true : false // Verificacion de que hemos ingresado 
   let usuario;
-  if (req.cookies.coderCokieToken) {
-    usuario = jwt.verify(req.cookies.coderCokieToken, config.cookiekey)
+  if (req.cookies.coderCookieToken) {
+    usuario = jwt.verify(req.cookies.coderCookieToken, config.PRIVATE_KEY)
 
   } else {
     usuario = {
@@ -20,7 +19,7 @@ router.get('/', (req, res) => {
   req.logger.debug(usuario)
   let isAdmin = usuario.role === "admin" ? true : false // Validacion para entrar en endpoint de users
   res.render('index', {
-    styleRoute: `<link href="../styles/index.css" rel="stylesheet">`, loggedin: verification,
+    loggedin: verification,
     user: usuario.userName,
     isAdmin
   })

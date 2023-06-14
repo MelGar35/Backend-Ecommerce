@@ -44,7 +44,7 @@ class productValidator {
       console.log(products)
       return products
     } catch (error) {
-      return error
+      throw new Error('Producto no encontrado')
     }
   }
 
@@ -52,7 +52,7 @@ class productValidator {
     if (!title || !description || !category || !price || !thumbnailName || !code || !stock || !owner) {
       CustomError.createError({
         name: 'Error al crear el producto',
-        cause: generateProductErrorInfo({ title, description, category, price, code, stock }),
+        cause: generateProductError({ title, description, category, price, code, stock }),
         message: "Error tratando de crear producto",
         code: ErrorList.MISSING_DATA
       })

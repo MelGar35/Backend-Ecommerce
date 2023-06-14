@@ -72,5 +72,6 @@ app.use('/api', routes)
 app.listen(config.PORT, () => console.log(`Escuchando en el puerto ${config.PORT}`))
 
 //Passport
+initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())

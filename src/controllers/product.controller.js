@@ -9,14 +9,14 @@ class productController {
     let sort = parseInt(req.query.sort)
     let page = parseInt(req.query.page)
     let json = (req.query.json)
-    req.logger.debug(`Modo JSON : ${json}`)
+    req.logger.debug(`JSON : ${json}`)
     
     
     try {
       const products = await productValidator.getProducts(limit, JSON.parse(query), sort, page)
       req.logger.debug(products.docs)
       if (json) res.status(200).json(products)
-      else res.render('products')
+      else res.render("products", {products, title: "Productos"})
     } catch (error) {
       req.logger.error(`Funcion getProducts en controlador: Ha ocurrido un error ${error.message}`)
       res.json(error)
@@ -26,9 +26,9 @@ class productController {
   async getMockingProducts(req, res) {
     const products = await productValidator.getMockingProducts()
     try {
-      res.render('mockingProducts', { products, title: "Productos" })
+      res.json(products)
     } catch (error) {
-      req.logger.error("Funcion getMockingProducts en controlador: ${error.message}")
+      req.logger.error(`Funcion getMockingProducts en controlador: ${error.message}`)
       res.json(error)
     }
   }
@@ -39,7 +39,7 @@ class productController {
 
     try {
       let products = { docs: [] }
-      // products.docs = await productValidator.getProductById(pid)
+      //products.docs = await productValidator.getProductById(pid)
       let product = await productValidator.getProductById(pid)
       products.docs.push(product)
       req.logger.debug(`Producto encontrado ${products}`)
@@ -47,24 +47,21 @@ class productController {
       else res.render('products', { products, title: "Search"})
     }
     catch (error) {
-      req.logger.error(`Funcion getProductById en controlador: ${Error.message}`)
+      req.logger.error(`Funcion getProductById en controlador: ${error.message}`)
       res.status(404).json(error.message)
     }
   }
 
   async createProduct(req, res) {
     const { title, description, category, price, thumbnail, code, stock } = req.body;
-    !req.file && console.log("No se ha guardado la imagen")
+    !req.file && console.log("No se pudo guardar la imagen")
     req.logger.debug("Creando producto")
 
 
     let thumbnailName
-
-
     if (!req.file) {
       thumbnailName = "Sin imagen"
     } else {
-
       thumbnailName = req.file.filename
     }
 
@@ -87,7 +84,7 @@ class productController {
       await productValidator.editProduct(pid, updatedProduct)
       res.send({ status: 200, payload: updatedProduct })
     } catch (error) {
-      req.logger.error("Error editando producto: ", error.message)
+      req.logger.error("Error al editar el producto: ", error.message)
       res.json({ error: error.message})
     } 
   }
@@ -99,7 +96,7 @@ class productController {
     const products = await productValidator.getProducts()
     try {
       await productValidator.deleteProduct(pid, user, role)
-      res.status(200).json({ message: "Product Eliminated", payload: products })
+      res.status(200).json({ message: "Producto Eliminado", payload: products })
     } catch (error) {
       console.log(error.message)
       req.logger.error(`Funcion deleteProduct en controlador: ${error.message}`)

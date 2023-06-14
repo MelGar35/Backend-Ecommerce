@@ -23,7 +23,7 @@ class usersValidator {
   async deleteUser(uid) {
     console.log(`Eliminando usuario con id ${uid}`)
 
-    const usuariosExcluidos = ['640dfe483d9a85c2cbdc44d6', '6429686e7ea1c5f5b46d804b', '644709cf130471ec9f3a268c']; // Usuarios son admin, premium y user
+    const usuariosExcluidos = ['641348b727e3f9714a55955e', '', '64127772aa1e08b237d3e48f']; // Usuarios son admin, premium y user
 
 
     if (!uid) throw new Error("MISSING UID")
@@ -31,20 +31,16 @@ class usersValidator {
       throw new Error("No se puede eliminar este usuario.");
     }
 
-
     try {
       await UserService.deleteUser(uid)
     } catch (error) {
       throw new Error(error)
 
     }
-
-
-
   }
 
   async deleteInactiveUsers() {
-    console.log("VAL: Eliminando usuarios inactivos")
+    console.log("Eliminando usuarios inactivos")
 
     try {
       await UserService.deleteInactiveUsers()
@@ -64,10 +60,10 @@ class usersValidator {
 
 
   async updateUserDocuments(uid, data) {
-    if (!uid) throw new Error("Missing UID")
-    if (!data) throw new Error("Missing DATA")
-    if (!await UserService.getUserById(uid)) throw new Error("User not found")
-    console.log("uploading user")
+    if (!uid) throw new Error("No se encuentra el Id del Usuario")
+    if (!data) throw new Error("Se ha extraviado informaciòn")
+    if (!await UserService.getUserById(uid)) throw new Error("Usuario no encontrado")
+    console.log("actualizando usuario")
     const nombreArr = Object.keys(data)[0]
     const documents = []
     documents.push({ name: data[nombreArr][0].fieldname, reference: data[nombreArr][0].path })
