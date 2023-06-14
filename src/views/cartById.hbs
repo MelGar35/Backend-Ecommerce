@@ -30,7 +30,7 @@
 			<td>{{this.quantity}}</td>
 			<td>{{this.product.stock}}</td>
 			<td id="_id">{{this._id}}</td>
-      		<td><button id="deleteProduct" class="btn btn-primary" data-id={{_id}} >Eliminar</button></td>
+      		<td><button id="deleteProduct" class="btn btn-primary" data-id={{_id}} >Eliminar        </button></td>
 		</tr>
         {{/each}}
 </tbody>
@@ -39,15 +39,14 @@
 	<button id="openModalBtn" class="btn btn-primary"> Agregar producto</button>
     <button id="purchaseButton">Comprar</button>
 
-<div>
-  <div>
-    <span>&times;</span>
+<div class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
     <h3>Productos</h3>
     <ul id="product-list"></ul>
   </div>
 </div>
 
-   
 <script type="module" src="/cartbyid.js"></script> 
 	
 
