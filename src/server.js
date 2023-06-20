@@ -48,7 +48,7 @@ app.use(addLogger)
 app.use( session(
   {
   store: MongoStore.create({
-      mongoUrl: "mongodb+srv://Meli:Melisa537@noeserver.c5gx1p7.mongodb.net/Login?retryWrites=true&w=majority",
+      mongoUrl: "mongodb+srv://Meli:Melisa537@noeserver.c5gx1p7.mongodb.net/Shanti?retryWrites=true&w=majority",
       mongoOptions:{
         useNewUrlParser: true,
         useUnifiedTopology:true,

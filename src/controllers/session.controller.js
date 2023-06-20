@@ -90,7 +90,7 @@ class sessionsController {
         await sessionServices.updateUser(checkedAccount._id, { last_connection: new Date() })
         const token = jwt.sign({ user: userToSign.email, role: userToSign.role, phone: userToSign.phone, userID: checkedAccount._id, userName: checkedAccount.username }, config.PRIVATE_KEY);
         res.cookie('coderCookieToken', token, { maxAge: 60 * 60 * 60 * 60, httpOnly: false, withCredentials: false });
-        req.logger.info("User is logged in ")
+        req.logger.info("El usuario se ha logueado")
         res.redirect('/api')
       }
     } catch (error) {

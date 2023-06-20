@@ -30,7 +30,6 @@ class UserDao {
         async (err, userActualizado) => {
           if (err) {
             console.error(err);
-            // Manejar el error
           } else {
             // Buscar si ya existe un objeto con el mismo nombre
             const objetoExistente = userActualizado.documents.find(doc => doc.name === data.name);
@@ -55,7 +54,7 @@ class UserDao {
         }
       );
     } else {
-      const adminUID = '6429686e7ea1c5f5b46d804b'
+      const adminUID = '641348b727e3f9714a55955e'
       await userModel.updateOne({
         $and: [
           {
@@ -86,7 +85,7 @@ class UserDao {
     let requiredTime = new Date();
     requiredTime.setDate(requiredTime.getDate() - 2);
 
-    const usuariosExcluidos = ['640dfe483d9a85c2cbdc44d6', '6429686e7ea1c5f5b46d804b', '644709cf130471ec9f3a268c']; // Usuarios son admin, premium y user
+    const usuariosExcluidos = ['641348b727e3f9714a55955e', '641288ee9d3a2534e063b30a']; // Usuarios son admin y user
 
     const usuariosInactivos = await userModel.find(
       {
@@ -105,7 +104,7 @@ class UserDao {
     let requiredTime = new Date()
     requiredTime.setDate(requiredTime.getDate() - 2)
 
-    const usuariosExcluidos = ['640dfe483d9a85c2cbdc44d6', '6429686e7ea1c5f5b46d804b', '644709cf130471ec9f3a268c'] // Usuarios son admin, premium y user
+    const usuariosExcluidos = ['641348b727e3f9714a55955e', '641288ee9d3a2534e063b30a']; // Usuarios son admin y user // Usuarios son admin, premium y user
     userModel.deleteMany(
       {
         $and: [
