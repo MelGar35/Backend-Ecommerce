@@ -22,12 +22,13 @@ document.getElementById("registerForm").addEventListener('submit', async (event)
 
 
   if (!data.first_name || !validarCorreoElectronico(data.email) || !data.last_name || !data.email || !data.age || !/\+[0-9]+/i.test(data.phone) || !data.password) {
-    ({
-      message: "Llena los campos necesarios, en el modo que se sugiere"
+    message.error({
+      title: "hey",
+      message: "Llena los campos!"
     })
   } else {
     let result;
-    await fetch(`/api/session/register`, {// 
+    await fetch(`/api/session/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -58,7 +59,7 @@ document.getElementById("registerForm").addEventListener('submit', async (event)
         console.log(data)
         console.log(result)
         if (!result.ok) {
-          ({
+          message.error({
             title: "Ha ocurrido un error",
             message: data.message
           })

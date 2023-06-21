@@ -85,7 +85,7 @@ class UserDao {
     let requiredTime = new Date();
     requiredTime.setDate(requiredTime.getDate() - 2);
 
-    const usuariosExcluidos = ['641348b727e3f9714a55955e', '641288ee9d3a2534e063b30a']; // Usuarios son admin y user
+    const usuariosExcluidos = ['641348b727e3f9714a55955e',"64923f214eebd8005ef2723a", '641288ee9d3a2534e063b30a']; // Usuarios son admin, premium y user
 
     const usuariosInactivos = await userModel.find(
       {
@@ -104,7 +104,7 @@ class UserDao {
     let requiredTime = new Date()
     requiredTime.setDate(requiredTime.getDate() - 2)
 
-    const usuariosExcluidos = ['641348b727e3f9714a55955e', '641288ee9d3a2534e063b30a']; // Usuarios son admin y user // Usuarios son admin, premium y user
+    const usuariosExcluidos = ['641348b727e3f9714a55955e',"64923f214eebd8005ef2723a" ,'641288ee9d3a2534e063b30a']; // Usuarios son admin, premium y user
     userModel.deleteMany(
       {
         $and: [

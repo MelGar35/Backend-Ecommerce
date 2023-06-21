@@ -1,3 +1,4 @@
+
 // Busqueda de productos
 document.getElementById("productSearch").addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -120,7 +121,7 @@ function sendRowData(row) {
       console.log(response);
       if (response.ok) {
         // Si la respuesta es exitosa, puedes realizar acciones adicionales si es necesario
-        iziToast.success({
+        message.success({
           title: "Producto modificado exitosamente!"
         });
         setTimeout(() => {
