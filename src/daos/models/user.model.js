@@ -8,7 +8,12 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   age: Number,
   phone: String,
-  role: { type: String, required: true, default: "user", enum: ["user","admin","premium"] },
+  role: { 
+    type: String, 
+    required: true, 
+    default: "user", 
+    enum: ["user","admin","premium"] 
+  },
   token: String,
   tokenDate: Date,
   last_connection: {

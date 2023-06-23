@@ -1,14 +1,14 @@
-<body>
-  <nav>
+<body class="align">
+  <nav class="navigation navigation--inline">
     {{#if loggedin}}
-    <div>
+    <div class="userinfo">
       <h4>Bienvenido: {{user}}</h4>
-      <div >
+      <div class="finishSession">
         <a id="link" href="/api/session/logout">Terminar sesion</a>
       </div>
+      
     </div>
       {{/if}}
-
     <ul>
       <!-- Si nos hemos loggeado tenemos acceso a las funcionalidades para ver productos, carts y usuarios  -->
       {{#if loggedin}}
@@ -29,7 +29,7 @@
       </li>
             <li>
         <a href="/api/users/documents">
-          <span >Perfil</span>
+          <span>Perfil</span>
         </a>
       </li>
 
@@ -53,13 +53,16 @@
 
 
             {{#if isAdmin}}
-    <li>
+      <li>
         <a href="/api/users/premium">
           <span>Users</span>
         </a>
-    </li>
-{{/if}}
-{{/if}}
-</ul>
-</nav>
+      </li>
+      {{/if}}
+
+
+      {{/if}}
+    </ul>
+  </nav>
+
 </body>

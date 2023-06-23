@@ -18,7 +18,9 @@ router.get('/', (req, res) => {
   }
   req.logger.debug(usuario)
   let isAdmin = usuario.role === "admin" ? true : false // Validacion para entrar en endpoint de users
-  res.render('index', {
+  let loggedBoolean = verification && true
+  console.log(loggedBoolean)
+  res.render('index', { loggedBoolean,
     loggedin: verification,
     user: usuario.userName,
     isAdmin
