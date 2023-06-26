@@ -23,7 +23,7 @@ Podes instalar este proyecto simplemente con "npm install" o con cualquier admin
   -  Persistencia de sesion con cookies, usando JWT.
   -  Sistema de loggers con libreria Winston logger.
   -  Sistema de mensajeria con Twilio y Nodemailer.
-  -  Renderizado desde servidor con libreria handlebars, con respuestas en formato JSON (pasando parametro ?json=true)
+  -  Renderizado desde servidor con libreria handlebars, con respuestas en formato JSON
  
   
 
