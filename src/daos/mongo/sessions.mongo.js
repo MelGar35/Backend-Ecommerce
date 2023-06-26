@@ -19,7 +19,7 @@ class UserDao {
 
   async updateUser(id, data) {
 
-    console.log("Actualizando Usuario")
+    console.log("Actualizando info del Usuario")
     console.log(data)
     return await userModel.updateOne({ _id: id }, { $set: data });
   }

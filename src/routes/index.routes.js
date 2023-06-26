@@ -8,13 +8,9 @@ import viewsRoutes from "./views.routes.js"
 const router = Router()
 
 router.use("/products", productRoutes)
-
 router.use("/carts", cartRoutes)
-
 router.use("/", viewsRoutes)
-
 router.use("/session", sessionRoutes)
-
 router.use('/users', userRoutes)
 
 export default router

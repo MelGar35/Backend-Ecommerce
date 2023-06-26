@@ -8,7 +8,7 @@ deleteButtons.forEach(button => {
 
     let uid = event.target.dataset.id;
 
-    await fetch(`/api/users/${uid}`, {// 
+    await fetch(`/api/users/${uid}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -61,7 +61,7 @@ sendButtons.forEach(button => {
           })
           window.location.href = "/api/users/premium"
         } else {
-         message.success({
+         message.error({
             title: "No se ha actualizado el usuario",
             message: "El usuario no tiene los documentos necesarios"
           })
@@ -77,7 +77,7 @@ sendButtons.forEach(button => {
 
 document.getElementById("deleteInactiveUsers").addEventListener('click', async () => {
   console.log("Eliminando usuarios inactivos")
-  await fetch(`/api/users`, {// 
+  await fetch(`/api/users`, {
     method: 'DELETE',
   })
     .then(response => {

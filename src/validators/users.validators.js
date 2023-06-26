@@ -23,7 +23,7 @@ class usersValidator {
   async deleteUser(uid) {
     console.log(`Eliminando usuario con id ${uid}`)
 
-    const usuariosExcluidos = ['641348b727e3f9714a55955e', '', '64127772aa1e08b237d3e48f']; // Usuarios son admin, premium y user
+    const usuariosExcluidos = ['641348b727e3f9714a55955e', '64923f214eebd8005ef2723a', '64127772aa1e08b237d3e48f']; // Usuarios son admin, premium y user
 
 
     if (!uid) throw new Error("MISSING UID")

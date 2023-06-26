@@ -19,8 +19,8 @@ const authorization = (role) => {
       }
     
       next()
-    }
-  }
+ }
+}
   
-    export default authorization
+export default authorization
   

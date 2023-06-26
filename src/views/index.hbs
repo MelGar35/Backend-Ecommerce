@@ -3,9 +3,6 @@
     {{#if loggedin}}
     <div class="userinfo">
       <h4>Bienvenido: {{user}}</h4>
-      <div class="finishSession">
-        <a id="link" href="/api/session/logout">Terminar sesion</a>
-      </div>
       
     </div>
       {{/if}}
@@ -37,6 +34,7 @@
 
 
  {{#unless loggedBoolean}}
+ <h4>Bienvenido a Shanti</h4>
       <li>
         <a href="/api/session/login">
          <span>Login</span>
@@ -59,7 +57,9 @@
         </a>
       </li>
       {{/if}}
-
+<div class="finishSession">
+        <a id="link" href="/api/session/logout">Terminar sesion</a>
+</div>
 
       {{/if}}
     </ul>

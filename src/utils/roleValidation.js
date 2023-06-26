@@ -13,15 +13,11 @@ const roleValidation = () => {
     const location = user.documents.find(el => el.name === "location")
     const accountStatus = user.documents.find(el => el.name === "accountStatus")
 
-
-
     // Validamos
     if ((!identification | !location | !accountStatus) && user.role === "user") {
       console.log("Usuario sin documentos documentos necesarios")
       return res.status(403).json({ message: 'El usuario no tiene los documentos necesarios para ser premium' })
     }
-
-
     next()
   }
 }

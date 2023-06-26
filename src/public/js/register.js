@@ -19,8 +19,6 @@ document.getElementById("registerForm").addEventListener('submit', async (event)
     email: document.getElementById('email').value,
   }
 
-
-
   if (!data.first_name || !validarCorreoElectronico(data.email) || !data.last_name || !data.email || !data.age || !/\+[0-9]+/i.test(data.phone) || !data.password) {
     message.error({
       title: "hey",
@@ -38,7 +36,7 @@ document.getElementById("registerForm").addEventListener('submit', async (event)
       .then(response => {
         console.log(response)
         if (response.ok) {
-          ({
+          message.success({
             title: "Usuario Creado!"
           })
           setTimeout(() => {

@@ -22,12 +22,17 @@ class cartDao {
   }
 
   async updateCart(cid, product) {
+    try{
     return await cartModel.findByIdAndUpdate({ _id: cid },
       { $push: { products: product } },
       { new: true, useFindAndModify: false })
-
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
   }
+}
   async updateQuantityToCart(cid, pid, quantity) {
+    console.log(cid, pid, quantity)
     await cartModel.findOneAndUpdate(
       {
         _id: cid,
@@ -58,7 +63,6 @@ class cartDao {
     return await ticketModel.create(ticket)
 
   }
-
 }
 
 export default new cartDao()

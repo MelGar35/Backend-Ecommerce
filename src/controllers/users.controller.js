@@ -21,7 +21,6 @@ class usersController {
       } catch (error) {
         req.logger.error(`Funcion getDocumentsPage en controlador: ${error.message}`)
         res.status(500).json({ message: `Error ${error}` })
-  
       }
     }
   
@@ -52,7 +51,7 @@ class usersController {
     }
   
   async uploadDocs(req, res) {
-      req.logger.debug("Uploading documents... ")
+      req.logger.debug("Cargando documentos... ")
   
       const uid = req.params.uid
       const data = req.files

@@ -68,7 +68,7 @@ function addToCart(productId, quantity) {
         })
         setTimeout(() => {
           window.location.href = `/api/carts/${cid}`
-        }, 1800);
+        }, 1600);
       } else if (response.status !== 200) {
         message.error({
           title: "Ups",

@@ -114,11 +114,9 @@ class UserDao {
       }
     )
       .then(result => {
-        // Manejar el resultado si es necesario
         console.log(result)
       })
       .catch(error => {
-        // Manejar el error si ocurre
         console.log(error)
       });
   }

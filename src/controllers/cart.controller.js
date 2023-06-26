@@ -13,7 +13,9 @@ const transport = nodemailer.createTransport({
 })
 
 class cartController {
+
   async getCarts(req, res) {
+
     const limit = parseInt(req.query.limit)
     const json = (req.query.json)
 
@@ -63,7 +65,6 @@ class cartController {
       res.status(400).json({ info: `Algo salio mal: ${error}` })
     }
   }
-
 
   async updateCart(req, res) {
     const cid = (req.params.cid)

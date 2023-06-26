@@ -11,8 +11,7 @@ class cartsValidator {
       const carts = await cartsServices.getCarts(limit)
       return carts
     } catch (error) {
-      return error;
-
+      return error
     }
   }
 
@@ -149,10 +148,9 @@ class cartsValidator {
       }
 
 
-      await cartsServices.purchase(ticket)
+  await cartsServices.purchase(ticket)
 
-
-      let unOrderedProducts = await cartsServices.getCartById(cid)
+    let unOrderedProducts = await cartsServices.getCartById(cid)
       try{
       client.messages.create({
         body: `Gracias por tu Compra`,

@@ -12,8 +12,8 @@ export let Ticket;
 switch (config.PERSISTENCE) {
   case 'MONGO':
     console.log('Persistencia en Base de Datos')
-    mongoose.set('strictQuery', true)
-    const connect = mongoose.connect(config.MONGO_URI, {
+    mongoose.set('strictQuery', false)
+    mongoose.connect(config.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
@@ -34,7 +34,7 @@ switch (config.PERSISTENCE) {
 
     break;
 
-
+  //No esta desarrollada esta persistencia, pero es por si la necesitamos.
   case 'MEMORY':
     const { default: usersMemory } = await import('./memory/users.memory.js')
     const { default: productMemory } = await import('./memory/products.memory.js')

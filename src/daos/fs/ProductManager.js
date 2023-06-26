@@ -12,29 +12,25 @@ class ProductManager {
   }
 
   async addProduct(title, description, category, price, thumbnail, code,status,stock){
-    let product = {
-      title,
-      description,
-      category,
-      price,
-      thumbnail,
-      code,
-      status,
-      stock,
+    let producto = {
+      'title': title,
+      'description': description,
+      "category": category,
+      'price': price,
+      'thumbnail': thumbnail,
+      'code': code,
+      'status': true,
+      'stock': stock,
     }
 
-  if (this.products.length === 0) {
-    product["id"] = 1;
-  } else {
-    product["id"] = this.products[this.products.length - 1]["id"] + 1;
-    }
+    this.products.length === 0 ? producto["id"] = 1 : producto["id"] = this.products[this.products.length - 1]["id"] + 1
+    let encontrado = this.products.some(elemento => elemento.code === code)
 
-  let codeCopy = this.products.some(copy => copy.code === code) 
-    if(codeCopy){
-      console.log("El codigo ya existe, vuelva a intentarlo")
-    }else{
-      this.products.push(product);
-    await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
+    if (encontrado) return false
+    else {
+      this.products.push(producto)
+      await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
+      return true;
     }
   }
 
@@ -42,51 +38,40 @@ class ProductManager {
     return this.products
   }
 
-getProductById(id){
-    try{
-      return this.products.find((product)=> product.id === id)
-    } catch(error){
-      return "Error, id not found"
+  getElementById = (id) => {
+    let producto = this.products.find(el => el.id === id)
+    return producto
+  }
+
+  async updateProduct(id, campo, valorNuevo) {
+
+    let index = this.products.findIndex(element => element.id === id)
+    let campoValido;
+    index === -1 ? false : campoValido = Object.keys(this.products[index]).some(el => el === campo)
+
+
+    if (campo === 'id' || !campoValido) {
+      return false
+    } else {
+      this.products[index][campo] = valorNuevo;
+      await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
+      return true;
     }
   }
 
-  async updateProduct(id, product){
-    try {
-      const oldProduct = this.products.find((product) => product.id === id)
-      const index = this.products.findIndex((prod) => prod.id === id)
-
-      if(index !== -1) {
-        const newProduct = {...oldProduct, ...product }
-        this.products[index] = newProduct
-        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
-        console.log('Product updated')
-      }
-    } catch(error) {
-      console.log('Error update:', error)
-    }
-  }
-
-  delete() {
-    fs.unlinkSync(this.path)
-  }
 
   async deleteProduct(id) {
-    try {
-      const product = this.products.findIndex((product) => product.id === id)
-
-      if(product !== -1) {
-        this.products.splice(product, 1)
-        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
-      }
-      else {
-        console.log('Product not found')
-      }
-    } catch (error) {
-      console.log('Error delete Product:', error)
+    let encontrado = this.products.some(el => el.id === id)
+    if (encontrado) {
+      this.products = this.products.filter(el => el.id !== id)
+      await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
+      return true;
+    } else {
+      return false;
     }
   }
+}
 
-  }
 
  
 export default new ProductManager("./productos.json")

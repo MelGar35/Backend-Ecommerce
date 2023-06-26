@@ -2,7 +2,7 @@
   <h1>Productos</h1>
 
   <a href="/api/carts">
-    <label>Mira los carritos actuales</label>
+    <label for="carts">Mira los carritos actuales</label>
   </a>
 
    <a href="/api/">Home</a>
@@ -61,47 +61,40 @@
 
 <div class="uploadProducts">
 
-<h3 id="message"></h3>
-
-  <button id="openModalBtn">Agregar producto</button>
-
-
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <form id="nuevoProducto" class="vertical-form"  action="/api/products" method="POST">
-      <div class="form-group">
-        <label for="title">Nombre:</label>
-        <input type="text" name="title" placeholder="Nombre">
-      </div>
-      <div class="form-group">
-        <label for="description">Descripción:</label>
-        <input type="text" name="description" placeholder="Descripción">
-      </div>
-      <div class="form-group">
-        <label for="category">Categoría:</label>
-        <input type="text" name="category" placeholder="Categoría">
-      </div>
-      <div class="form-group">
-        <label for="price">Precio:</label>
-        <input type="text" name="price" placeholder="Precio">
-      </div>
-      <div class="form-group">
+<div id="modal">
+    <h3 class="m-3" id="openModalBtn">Agregar producto</h3>
+    <form id="nuevoProducto" class="row p-3" action="/api/products" method="POST">
+    <div class="form-group">
+      <label for="title">Nombre:</label>
+      <input class="m-1" type="text" name="title" placeholder="Nombre">
+    </div>
+    <div class="form-group">
+      <label for="description">Descripción:</label>
+      <input class="m-1" type="text" name="description" placeholder="Descripcion">
+    </div>
+    <div class="form-group">
+      <label for="category">Categoría:</label>
+      <input class="m-1" type="text" name="Category" placeholder="Categoría">
+    </div>
+    <div class="form-group">
+      <label for="price">Precio:</label>
+      <input class="m-1" type="text" name="price" placeholder="Precio">
+    </div>
+    <div class="form-group">
         <label for="file">Elige una imagen:</label>
-        <input type="file" name="thumbnail">
-      </div>
-      <div class="form-group">
+        <input class="m-1" type="file" name="thumbnail">
+    </div>
+    <div class="form-group">
         <label for="code">Código:</label>
-        <input type="text" name="code" placeholder="Código">
-      </div>
-      <div class="form-group">
+        <input class="m-1" type="text" name="code" placeholder="Código">
+    </div>
+    <div class="form-group">
         <label for="stock">Stock:</label>
-        <input type="text" name="stock" placeholder="Stock">
+        <input  class="m-1"type="text" name="stock" placeholder="Stock">
       </div>
-      <button>Enviar</button>
+      <button class="btn btn-primary">Enviar</button>
     </form>
   </div>
-</div>
 </div>
 
 <script type="module" src="/products.js"></script>

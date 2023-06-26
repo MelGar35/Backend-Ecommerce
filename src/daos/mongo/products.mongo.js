@@ -10,7 +10,6 @@ class productDao {
     }
   }
 
-
   async getProductById(pid) {
     try {
       return await productModel.findById(pid)

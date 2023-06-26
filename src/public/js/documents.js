@@ -26,7 +26,7 @@ async function uploadFile(formInfo, inputInfo, event) {
   const formData = new FormData(form)
 
 
-  await fetch(route, {// 
+  await fetch(route, { 
     method: 'POST',
     body: formData,
 

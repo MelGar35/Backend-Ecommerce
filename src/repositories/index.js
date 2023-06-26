@@ -6,8 +6,6 @@ import ticketRepository from './ticket.repository.js'
 import SessionsRepository from './Sessions.repository.js'
 import UsersRepository from './Sessions.repository.js'
 
-
-
 export const CartsService = new CartsRepository(Carts)
 export const ProductService = new ProductRepository(Products)
 export const UserService = new UsersRepository(Users)

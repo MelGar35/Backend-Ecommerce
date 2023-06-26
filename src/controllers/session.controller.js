@@ -23,7 +23,6 @@ class sessionsController {
     } catch (error) {
       req.logger.error(`Funcion getLoginPage en controlador: ${error.message}`)
       res.status(500).json({ error: error.message })
-
     }
   }
 
@@ -39,11 +38,9 @@ class sessionsController {
   async getRegisterPage(req, res) {
     try {
       res.render('register')
-
     } catch (error) {
       req.logger.error(`Funcion getRegisterPage en controlador: ${error.message}`)
       res.status(500).json({ error: error.message })
-
     }
   }
 
@@ -66,7 +63,6 @@ class sessionsController {
     try {
       res.clearCookie('coderCookieToken')
       res.redirect("/api")
-
     } catch (error) {
       req.logger.error(`Funcion logout en controlador: ${error.message}`)
       res.status(500).json({ error: error.message })
@@ -82,14 +78,14 @@ class sessionsController {
       const checkedAccount = await sessionValidator.checkAccount(email, password)
       const userToSign = new currentUserDTO(checkedAccount)
 
-      if (checkedAccount === 'NoMailNorPassword') return res.status(404).json({ message: "No mail or password " })
-      if (checkedAccount === 'NoUser') return res.status(404).json({ message: "No User found" })
-      if (checkedAccount === 'IncorrectPassword') return res.status(404).json({ message: "Incorrect password" })
+      if (checkedAccount === 'NoMailNorPassword') return res.status(404).json({ message: "No mail o password" })
+      if (checkedAccount === 'NoUser') return res.status(404).json({ message: "Usuario no encontrado" })
+      if (checkedAccount === 'IncorrectPassword') return res.status(404).json({ message: "Password incorrecto" })
 
       if (checkedAccount) {
         await sessionServices.updateUser(checkedAccount._id, { last_connection: new Date() })
         const token = jwt.sign({ user: userToSign.email, role: userToSign.role, phone: userToSign.phone, userID: checkedAccount._id, userName: checkedAccount.username }, config.PRIVATE_KEY);
-        res.cookie('coderCookieToken', token, { maxAge: 60 * 60 * 60 * 60, httpOnly: true, withCredentials: false });
+        res.cookie('coderCookieToken', token, { maxAge: 60 * 60 * 60 * 60, httpOnly: false, withCredentials: false });
         req.logger.info("El usuario se ha logueado")
         res.redirect('/api')
       }
