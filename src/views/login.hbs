@@ -1,22 +1,53 @@
-<div>
-  <h2>Login</h2>
-  <form id="loginform" action="/api/session/login" method="POST" >
-    <p>
-    <input type="text" id="email" name="email" placeholder="Email Address"><i class="validation"><span></span><span></span></i>
-    </p>
-    <p>
-    <input type="password" id="password" name="password"><i class="validation"><span></span><span></span></i>
-    </p>
-    <p>
-    <button type="submit">Iniciar sesion</button>
-    </p>
-  </form>
-  <div>
-    <p><a href="/api/session/restore">Olvidaste tu Contraseña?</a><p>
+
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/api">Shanti</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+  <br><br>
+  <!-- Login Content -->
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Login</h2>
+            <form id="loginForm" action="/api/session/login" method="POST">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu email">
+              </div>
+              <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña">
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+            <div class="mt-3">
+              <a href="/api/session/restore">Olvidaste tu contraseña?</a>
+            </div>
+            <div class="mt-3">
+              <p>Eres nuevo? <a href="/api/session/register">Registrate</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div>
-    <p><a href="/api/session/register"> Registrarse</a><p>
-  </div>
-</div>
+  <br><br><br>
+<!-- Footer -->
+  
+  <footer class="bg-dark text-light text-center py-3 mt-auto">
+    <p>©Shanti 2023. Todos los derechos reservados.</p>
+  </footer>
+</body>
+
+ <!-- Login Script -->
 <script type="module" src="/login.js"></script>
 

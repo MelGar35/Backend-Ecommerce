@@ -1,0 +1,33 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .navbar {
+    background-color: #f8f9fa;
+    padding: 10px;
+  }
+
+  .navbar .nav-link {
+    color: #333;
+  }
+
+  .footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    margin-top: auto;
+  }
+
+  .footer p {
+    margin-bottom: 0;
+  }
+
+  .align {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .userinfo {
+    margin-bottom: 10px;
+  }
