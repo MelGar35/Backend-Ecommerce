@@ -24,3 +24,5 @@ error: Funcion createProduct en controlador: Error tratando de crear producto
 error: Funcion createProduct en controlador: Error tratando de crear producto
 error: Funcion createProduct en controlador: Error tratando de crear producto
 error: Funcion createProduct en controlador: Error tratando de crear producto
+error: Funcion createProduct en controlador: Error tratando de crear producto
+error: Funcion createProduct en controlador: Error: Error: E11000 duplicate key error collection: Shanti.products index: code_1 dup key: { code: "AA897" }

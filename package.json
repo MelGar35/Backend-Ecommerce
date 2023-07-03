@@ -44,5 +44,6 @@
     "url": "https://github.com/MelGar35/Implementacion-Logger/issues"
   },
   "homepage": "https://github.com/MelGar35/Implementacion-Logger#readme",
-  "description": "<a href=\"https://github.com/MelGar35/Entrega-Final-Backend-Garcia.git\"> </a>"
+  "description": "<a href=\"https://github.com/MelGar35/Entrega-Final-Backend-Garcia.git\"> </a>",
+  "devDependencies": {}
 }
