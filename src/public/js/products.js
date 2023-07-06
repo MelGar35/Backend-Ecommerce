@@ -3,12 +3,13 @@
 document.getElementById("productSearch").addEventListener('submit', async (event) => {
   event.preventDefault();
   console.log("Iniciando busqueda");
-  let nombreProducto = document.getElementById("searchTitle").value;
+  const nombreProducto = document.getElementById("searchTitle").value;
 
   fetch('/api/products?json=true')
     .then(response => response.json())
     .then(data => {
-      // Buscar el producto por nombre en el array de productos
+
+// Buscar el producto por nombre en el array de productos
       console.log(data.docs)
       const productoEncontrado = data.docs.find(producto => producto.title === nombreProducto);
 
@@ -16,25 +17,25 @@ document.getElementById("productSearch").addEventListener('submit', async (event
       if (productoEncontrado) {
         const productoId = productoEncontrado._id;
 
-        // Realizar la segunda petición Fetch utilizando el ID del producto
-        fetch(`/api/products/${productoId}`)
-          .then(res => {
-            if (res.ok) {
-              message.success({
-                title: "Producto encontrado"
-              })
-              setTimeout(() => {
-                window.location.href = `/api/products/${productoId}`
-              }, 1000);
-            } else {
-              message.error(
-                { title: "Producto no encontrado" }
-              )
-            }
-          })
-          .catch(error => {
-            console.log('Error al buscar el producto en la base de datos:', error);
-          });
+// Realizar la segunda petición Fetch utilizando el ID del producto
+  fetch(`/api/products/${productoId}`)
+    .then(res => {
+      if (res.ok) {
+        message.success({
+        title: "Producto encontrado"
+    })
+    setTimeout(() => {
+    window.location.href = `/api/products/${productoId}`
+    }, 1000);
+    } else {
+      message.error(
+    { title: "Producto no encontrado" }
+            )
+    }
+    })
+    .catch(error => {
+        console.log('Error al buscar el producto en la base de datos:', error);
+      });
       } else {
         message.error({
           title: "No hay ningun producto con ese nombre"
@@ -45,12 +46,9 @@ document.getElementById("productSearch").addEventListener('submit', async (event
     .catch(error => {
       console.log('Error al obtener los productos de la API:', error);
     });
-
-
 })
 
 // FUNCIONALIDAD PARA MODIFICAR STOCK DE PRODUCTO
-
 
 // Obtener todas las filas de la tabla
 let rows = document.querySelectorAll("table tbody tr");
@@ -126,8 +124,6 @@ function sendRowData(row) {
 
 
   fetch(`/api/products/${pid}`, {
-
-
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
@@ -243,22 +239,3 @@ deleteButtons.forEach(button => {
   });
 });
 
-
-// Modal para carga de productos
-const openModalBtn = document.getElementById('openModalBtn');
-const modal = document.getElementById('modal');
-const closeModal = document.getElementsByClassName('close')[0];
-
-openModalBtn.addEventListener('click', () => {
-  modal.style.display = 'block';
-});
-
-closeModal.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
-
-window.addEventListener('click', (event) => {
-  if (event.target === modal) {
-    modal.style.display = 'none';
-  }
-});

@@ -11,7 +11,7 @@ document.getElementById("loginform").addEventListener('submit', async (event) =>
   let wrongresult;
 
 
-  await fetch(`/api/session/login`, { //
+  await fetch(`/api/session/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

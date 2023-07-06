@@ -2,7 +2,7 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/api">Shanti</a>
+  <a class="navbar-brand" href="/api">Shanti Back</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
@@ -11,13 +11,15 @@
 
 <div class="title">
 <h1>Productos en carrito</h1>
+<br>
 <a href="/api/carts">
     <label for="carts">Carritos actuales</label>
 </a>
 <a href="/api/">Home</a>
+<br><br>
 </div>
 <h3>Carrito con Id N:</h3>
-<h4 id="cid">{{result._id}}</h4>
+<h5 id="cid">{{result._id}}</h5>
 <table id="productTable">
 	<thead>
 		<tr>
@@ -30,7 +32,6 @@
 		</tr>
 	</thead>
 	<tbody>
-
 
     {{#each result.products}}
             <tr>
@@ -46,9 +47,9 @@
         {{/each}}
 </tbody>
 </table>
-
+<br><br><br><br>
 	<button id="openModalBtn" class="btn btn-primary">Agregar producto</button>
-    <button id="purchaseButton">Comprar</button>
+    <button id="purchaseButton"class="btn btn-primary">Comprar</button>
 
 <div class="modal">
   <div class="modal-content">
@@ -57,7 +58,7 @@
     <ul id="product-list"></ul>
   </div>
 </div>
-
+<br><br><br><br><br><br><br><br><br><br><br>
 <!-- Footer -->
 <footer class="bg-dark text-light text-center py-3 mt-auto">
   <p>©Shanti 2023. Todos los derechos reservados.</p>
