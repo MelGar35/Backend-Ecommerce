@@ -1,3 +1,4 @@
+
 //"Agregar al carrito"
 const addToCartButtons = document.querySelectorAll('.add-to-cart');
 addToCartButtons.forEach(button => {
@@ -19,14 +20,14 @@ deleteButtons.forEach(button => {
       .then(response => {
         console.log(response)
         if (response.ok) {
-          message.success({
+          iziToast.success({
             title: "Producto eliminado de carrito"
           })
           setTimeout(() => {
             window.location.href = `/api/carts/${cid}`
           }, 1200);
         } else if (response.status !== 200) {
-          message.error({
+          iziToast.error({
             title: "Ups",
           })
           result = response
@@ -36,7 +37,7 @@ deleteButtons.forEach(button => {
       )
       .then(data => {
         if (!result.ok) {
-          message.error({
+         iziToast.error({
             title: "Ha ocurrido un error",
             message: data.message
           })
@@ -63,14 +64,14 @@ function addToCart(productId, quantity) {
     .then(response => {
       console.log(response)
       if (response.ok) {
-        message.success({
+        iziToast.success({
           title: "Producto agregado a carrito"
         })
         setTimeout(() => {
           window.location.href = `/api/carts/${cid}`
         }, 1600);
       } else if (response.status !== 200) {
-        message.error({
+        iziToast.error({
           title: "Ups",
         })
         result = response
@@ -83,7 +84,7 @@ function addToCart(productId, quantity) {
       console.log(result)
       if (!result.ok) {
         if (data) {
-          message.error({
+         iziToast.error({
             title: "Ha ocurrido un error",
             message: data.message
           })
@@ -313,14 +314,14 @@ async function sendRowData(row) {
     .then(function(response) {
       console.log(response)
       if (response.ok) {
-        message.success({
+        iziToast.success({
           title: "Producto modificado exitosamente!"
         })
         setTimeout(() => {
           window.location.href = `/api/carts/${cid}`
         }, 500);
       } else {
-        message.error({
+        iziToast.error({
           title: "No se ha podido modificar el producto"
         })
         throw new Error("Error en la solicitud");
@@ -343,7 +344,7 @@ document.getElementById("purchaseButton").addEventListener('click', async () => 
   })
     .then(response => {
       if (response.ok) {
-        message.success({
+        iziToast.success({
           title: "Carrito adquirido"
         })
         setTimeout(() => {
@@ -357,7 +358,7 @@ document.getElementById("purchaseButton").addEventListener('click', async () => 
     )
     .then(data => {
       if (!result.ok) {
-        message.error({
+        iziToast.error({
           title: "Ha ocurrido un error",
           message: data.message
         })

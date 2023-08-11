@@ -11,7 +11,7 @@ document.getElementById("newCart").addEventListener('submit', async (event) => {
   })
     .then(response => {
       if (response.ok) {
-        message.success({
+        iziToast.success({
           title: "Nuevo carrito creado"
         })
         setTimeout(() => {
@@ -25,7 +25,7 @@ document.getElementById("newCart").addEventListener('submit', async (event) => {
     )
     .then(data => {
       if (!result.ok) {
-        message.error({
+        iziToast.error({
           title: "Ha ocurrido un problema",
           message: data.message
         })
@@ -54,7 +54,7 @@ purchaseButtons.forEach(button => {
     })
       .then(response => {
         if (response.ok) {
-          message.success({
+          iziToast.success({
             title: "Carrito adquirido"
           })
           setTimeout(() => {
@@ -68,7 +68,7 @@ purchaseButtons.forEach(button => {
       )
       .then(data => {
         if (!result.ok) {
-          message.error({
+          iziToast.error({
             title: "Ha ocurrido un error",
             message: data.message
           })

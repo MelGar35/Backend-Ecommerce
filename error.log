@@ -31,3 +31,18 @@ error: Funcion createProduct en controlador: Error: Error: E11000 duplicate key 
 error: Funcion createProduct en controlador: Error tratando de crear producto
 error: Funcion createProduct en controlador: Error tratando de crear producto
 error: Funcion createProduct en controlador: Error: Error: E11000 duplicate key error collection: Shanti.products index: code_1 dup key: { code: "AP895" }
+error: Funcion deleteProduct en controlador: ReferenceError: user is not defined
+error: Funcion deleteProduct en controlador: ReferenceError: user is not defined
+error: Funcion deleteInactiveUsers en controlador: TypeError: UserService.findInactiveUsers is not a function
+error: Funcion createProduct en controlador: Error tratando de crear producto
+error: Funcion createProduct en controlador: Error tratando de crear producto
+error: Funcion deleteProduct en controlador: ReferenceError: user is not defined
+error: Funcion deleteProduct en controlador: ReferenceError: user is not defined
+error: Funcion deleteUser en controlador: No se puede eliminar este usuario.
+error: Funcion deleteProduct en controlador: ReferenceError: user is not defined
+error: Error al editar el producto: 
+error: Funcion deleteProduct en controlador: ReferenceError: user is not defined
+error: Funcion deleteInactiveUsers en controlador: TypeError: UserService.findInactiveUsers is not a function
+error: Funcion deleteInactiveUsers en controlador: TypeError: UserService.findInactiveUsers is not a function
+error: Funcion createProduct en controlador: Error tratando de crear producto
+error: Funcion deleteProduct en controlador: ReferenceError: user is not defined

@@ -1,4 +1,4 @@
-
+ 
 const enviarMail = document.getElementById("mailform").addEventListener('submit', (event) => {
   event.preventDefault()
   console.log("Enviando mail para restaurar contraseña")
@@ -22,7 +22,7 @@ const enviarMail = document.getElementById("mailform").addEventListener('submit'
     .then(response => {
       console.log(response)
       if (response.ok) {
-        message.success({
+        iziToast.success({
           title: "Un mail te ha sido enviado"
         })
 
@@ -35,7 +35,7 @@ const enviarMail = document.getElementById("mailform").addEventListener('submit'
     .then(data => {
       console.log(data)
       if (!result || !result.ok) {
-        message.error({
+        iziToast.error({
           title: "Ha ocurrido un error",
           message: data.error || ""
         })
@@ -66,7 +66,7 @@ document.getElementById("form").addEventListener('submit', (event) => {
     .then(response => {
       console.log(response)
       if (response.ok) {
-        message.success({
+        iziToast.success({
           title: "Contraseña cambiada!"
         })
         window.location.href = "/api/session/login"
@@ -80,7 +80,7 @@ document.getElementById("form").addEventListener('submit', (event) => {
     .then(data => {
       console.log(data)
       if (!result || !result.ok) {
-        message.error({
+        iziToast.error({
           title: "Ha ocurrido un error",
           message: data.error || ""
         })

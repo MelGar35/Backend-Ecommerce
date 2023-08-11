@@ -17,7 +17,6 @@ import {swaggerOptions} from "./docs/swaggerOptions.js"
 import session from "express-session"
 import MongoStore from "connect-mongo"
 
-
 //Configuracion del servidor
 const app = express()
 
@@ -39,7 +38,7 @@ app.set('view engine', 'hbs')
 app.set('views', `${__dirname}/views`)
 
 //middlewares
-app.use(express.static(path.join(__dirname, '/src/public')))
+app.use(express.static(path.join(__dirname,'/public')))
 app.use(cookieParser())
 app.use(errorHandler)
 app.use(addLogger)

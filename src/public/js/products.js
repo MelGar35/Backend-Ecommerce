@@ -21,14 +21,14 @@ document.getElementById("productSearch").addEventListener('submit', async (event
   fetch(`/api/products/${productoId}`)
     .then(res => {
       if (res.ok) {
-        message.success({
+        iziToast.success({
         title: "Producto encontrado"
     })
     setTimeout(() => {
     window.location.href = `/api/products/${productoId}`
     }, 1000);
     } else {
-      message.error(
+      iziToast.error(
     { title: "Producto no encontrado" }
             )
     }
@@ -37,7 +37,7 @@ document.getElementById("productSearch").addEventListener('submit', async (event
         console.log('Error al buscar el producto en la base de datos:', error);
       });
       } else {
-        message.error({
+        iziToast.error({
           title: "No hay ningun producto con ese nombre"
         })
         // Resto de la lógica...
@@ -134,14 +134,14 @@ function sendRowData(row) {
       console.log(response)
       if (response.ok) {
         // Si la respuesta es exitosa, puedes realizar acciones adicionales si es necesario
-        message.success({
+        iziToast.success({
           title: "Producto modificado exitosamente!"
         })
         setTimeout(() => {
           window.location.href = "/api/products"
         }, 1500);
       } else {
-        message.error({
+        iziToast.error({
           title: "No se ha podido modificar el producto"
         })
         throw new Error("Error en la solicitud");
@@ -180,7 +180,7 @@ document.getElementById("nuevoProducto").addEventListener('submit', async (event
   })
     .then(response => {
       if (response.ok) {
-        message.success({
+        iziToast.success({
           title: "Producto Creado!"
         })
         setTimeout(() => {
@@ -195,7 +195,7 @@ document.getElementById("nuevoProducto").addEventListener('submit', async (event
     )
     .then(data => {
       if (!result || !result.ok) {
-        message.error({
+        iziToast.error({
           title: "Ha ocurrido un error",
           message: data.message
         })
@@ -219,12 +219,12 @@ deleteButtons.forEach(button => {
     })
       .then(response => {
         if (!response.ok) {
-          message.error({
+          iziToast.error({
             title: "Ups",
             message: "No tienes permisos para realizar esta tarea"
           })
         } else {
-          message.success({
+          iziToast.success({
             title: "Producto eliminado"
           })
           setTimeout(() => {

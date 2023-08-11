@@ -21,6 +21,7 @@
     "express": "^4.18.2",
     "express-handlebars": "^7.0.4",
     "express-session": "^1.17.3",
+    "izitoast": "^1.4.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
     "mongoose-paginate-v2": "^1.7.1",
@@ -44,6 +45,5 @@
     "url": "https://github.com/MelGar35/Implementacion-Logger/issues"
   },
   "homepage": "https://github.com/MelGar35/Implementacion-Logger#readme",
-  "description": "<a href=\"https://github.com/MelGar35/Entrega-Final-Backend-Garcia.git\"> </a>",
-  "devDependencies": {}
+  "description": "<a href=\"https://github.com/MelGar35/Entrega-Final-Backend-Garcia.git\"> </a>"
 }

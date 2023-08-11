@@ -13,14 +13,14 @@ deleteButtons.forEach(button => {
     })
       .then(response => {
         if (response.ok) {
-          message.success({
+          iziToast.success({
             title: "Usuario eliminado",
           })
           setTimeout(() => {
             window.location.href = "/api/users/premium"
           }, 400);
         } else {
-          message.error({
+          iziToast.error({
             title: "No se ha podido eliminar al usuario",
           })
         }
@@ -55,13 +55,13 @@ sendButtons.forEach(button => {
     })
       .then(response => {
         if (response.ok) {
-          message.success({
+          iziToast.success({
             title: "Usuario actualizado!",
             message: "Recargue la pagina para comprobar los cambios"
           })
           window.location.href = "/api/users/premium"
         } else {
-         message.error({
+         iziToast.error({
             title: "No se ha actualizado el usuario",
             message: "El usuario no tiene los documentos necesarios"
           })
@@ -82,7 +82,7 @@ document.getElementById("deleteInactiveUsers").addEventListener('click', async (
   })
     .then(response => {
       if (response.ok) {
-        message.success({
+        iziToast.success({
           title: "Usuarios eliminados",
         })
         setTimeout(() => {
@@ -90,7 +90,7 @@ document.getElementById("deleteInactiveUsers").addEventListener('click', async (
 
         }, 1000);
       } else {
-        message.error({
+        iziToast.error({
           title: "Ha ocurrido un error",
         })
       }

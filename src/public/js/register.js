@@ -1,3 +1,4 @@
+
 function validarCorreoElectronico(correo) {
   let patron = /^[\w\.-]+@[\w\.-]+\.\w+$/;
   return patron.test(correo);
@@ -20,7 +21,7 @@ document.getElementById("registerForm").addEventListener('submit', async (event)
   }
 
   if (!data.first_name || !validarCorreoElectronico(data.email) || !data.last_name || !data.email || !data.age || !/\+[0-9]+/i.test(data.phone) || !data.password) {
-    message.error({
+    iziToast.error({
       title: "hey",
       message: "Llena los campos!"
     })
@@ -36,14 +37,14 @@ document.getElementById("registerForm").addEventListener('submit', async (event)
       .then(response => {
         console.log(response)
         if (response.ok) {
-          message.success({
+          iziToast.success({
             title: "Usuario Creado!"
           })
           setTimeout(() => {
             window.location.href = "/api/session/login"
           }, 1800);
         } else if (response.status === 500) {
-          message.error({
+          iziToast.error({
             title: "Ups",
             message: "Ha ocurrido un problema desde del servidor"
           })
@@ -57,7 +58,7 @@ document.getElementById("registerForm").addEventListener('submit', async (event)
         console.log(data)
         console.log(result)
         if (!result.ok) {
-          message.error({
+          iziToast.error({
             title: "Ha ocurrido un error",
             message: data.message
           })

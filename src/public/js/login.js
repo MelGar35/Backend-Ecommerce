@@ -1,4 +1,5 @@
 
+
 document.getElementById("loginform").addEventListener('submit', async (event) => {
   event.preventDefault()
   console.log("En funcion")
@@ -20,7 +21,7 @@ document.getElementById("loginform").addEventListener('submit', async (event) =>
   })
     .then(response => {
       if (response.ok) {
-        message.success({
+        iziToast.success({
           title: "Bienvenido"
         })
         setTimeout(() => {
@@ -34,7 +35,7 @@ document.getElementById("loginform").addEventListener('submit', async (event) =>
     )
     .then(data => {
       if (!wrongresult.ok) {
-        message.error({
+        iziToast.error({
           title: "Ha ocurrido un error",
           message: data.message
         })
